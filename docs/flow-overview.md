@@ -88,7 +88,7 @@ Routed FIR (left) and its routing congestion map (right):
   schematic), e.g. with Magic, KLayout and Netgen.
 
 The flow also checks the power grid: the IR-drop map shows how much the
-supply voltage sags across the FIR when it is busy (darker is better):
+supply voltage sags across the FIR when it is busy:
 
 ![FIR IR drop](images/fir_final_ir_drop.webp)
 
