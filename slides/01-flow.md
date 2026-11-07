@@ -324,7 +324,7 @@ Rendered from the routed GDS by `python/render_3d.py`.
 
 ## Transistors, wiring and pins
 
-![w:740](../docs/images/counter_iso_transistors.png)
+![w:740](../docs/images/counter_iso_transistors.webp)
 
 `python/render_transistors_iso.py`: metal 1 to 3 and the transistor layers,
 power straps hidden, pins at their real positions.

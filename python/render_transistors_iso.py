@@ -13,7 +13,7 @@ transistor layers.
     python3 python/render_transistors_iso.py \\
         designs/counter/build/orfs/results/sky130hd/counter/base/6_final.gds \\
         designs/counter/build/orfs/results/sky130hd/counter/base/6_final.def \\
-        -o docs/images/counter_iso_transistors.png
+        -o docs/images/counter_iso_transistors.webp
 
 Needs gdstk, pyvista and Pillow (headless: apt install libosmesa6).
 """
@@ -105,7 +105,7 @@ def main():
     pl.camera.parallel_scale = 0.56 * max(W, H)
     shot = Image.fromarray(pl.screenshot(return_img=True)).convert("RGB")
     # Extra canvas on the sides so labels of edge pins are never clipped
-    ML, MR = 260, 140
+    ML, MR = 300, 300
     img = Image.new("RGB", (shot.width + ML + MR, shot.height), BG)
     img.paste(shot, (ML, 0))
 
@@ -123,22 +123,43 @@ def main():
         dists = {"W": x - bx0, "E": bx1 - x, "S": y - by0, "N": by1 - y}
         return min(dists, key=dists.get)
 
-    groups = {}
+    # One label per bus and side: bits of a bus share a label, with a line to each bit
+    def split(name):
+        m = re.match(r"(.+)\[(\d+)\]$", name)
+        return (m.group(1), int(m.group(2))) if m else (name, None)
+
+    buses = {}
     for p in pins:
-        groups.setdefault(side(p[2], p[3]), []).append(p)
+        base, bit = split(p[0])
+        buses.setdefault((side(p[2], p[3]), base), []).append((bit, p))
+    groups = {}
+    for (s, base), members in buses.items():
+        bits = sorted(b for b, _ in members if b is not None)
+        runs = []                       # [hi:lo] runs, most significant first
+        for b in reversed(bits):
+            if runs and runs[-1][1] == b + 1:
+                runs[-1][1] = b
+            else:
+                runs.append([b, b])
+        rng = ",".join("%d" % h if h == l else "%d:%d" % (h, l) for h, l in runs)
+        text = "%s[%s]" % (base, rng) if bits else base
+        ps = [p for _, p in members]
+        mx = sum(p[2] for p in ps) / len(ps)
+        my = sum(p[3] for p in ps) / len(ps)
+        groups.setdefault(s, []).append((text, ps[0][1], ps, mx, my))
     out = 0.14 * max(W, H)
     labels = []
-    for s, ps in groups.items():
-        along = (lambda p: p[3]) if s in "WE" else (lambda p: p[2])
-        ps.sort(key=along)
-        n = len(ps)
+    for s, gs in groups.items():
+        along = (lambda g: g[4]) if s in "WE" else (lambda g: g[3])
+        gs.sort(key=along)
+        n = len(gs)
         lo, hi = (by0, by1) if s in "WE" else (bx0, bx1)
-        span = (hi - lo) * min(0.8, 0.16 * n)
+        span = (hi - lo) * min(0.8, 0.2 * (n - 1))
         mid = (lo + hi) / 2
-        for i, p in enumerate(ps):
+        for i, g in enumerate(gs):
             t = mid if n == 1 else mid - span / 2 + span * i / (n - 1)
-            lx, ly = {"W": (bx0 - out, t), "E": (bx1 + out, t), "S": (t, by0 - out), "N": (t, by1 + out)}[s]
-            labels.append((p, s, (lx, ly)))
+            lxy = {"W": (bx0 - out, t), "E": (bx1 + out, t), "S": (t, by0 - out), "N": (t, by1 + out)}[s]
+            labels.append((g, lxy))
 
     dr = ImageDraw.Draw(img)
 
@@ -155,23 +176,30 @@ def main():
     reg = font(["/usr/share/fonts/opentype/inter/Inter-Regular.otf", "DejaVuSans.ttf"], 26)
     small = font(["/usr/share/fonts/opentype/inter/Inter-Regular.otf", "DejaVuSans.ttf"], 20)
 
-    for (name, direction, x, y), s, (lx, ly) in labels:
+    centre_px = to_px(cx, cy, 0)[0]
+    for (text, direction, ps, _, _), (lx, ly) in labels:
         col = INPUT if direction == "INPUT" else OUTPUT
-        top_px = to_px(x, y, post_h)
         lab_px = to_px(lx, ly, post_h)
-        dr.line([top_px, lab_px], fill=col, width=3)
-        dr.ellipse([lab_px[0] - 5, lab_px[1] - 5, lab_px[0] + 5, lab_px[1] + 5], fill=col)
-        arrow = "→ " if direction == "INPUT" else "← "
-        txt = (arrow + name) if direction == "INPUT" else (name + " →")
+        for _, _, x, y in ps:
+            dr.line([to_px(x, y, post_h), lab_px], fill=col, width=2 if len(ps) > 1 else 3)
+        dr.ellipse([lab_px[0] - 6, lab_px[1] - 6, lab_px[0] + 6, lab_px[1] + 6], fill=col)
+        txt = ("→ " + text) if direction == "INPUT" else (text + " →")
         tw = dr.textlength(txt, font=mono)
-        centre_px = to_px(cx, cy, 0)[0]
-        tx = lab_px[0] - tw - 10 if lab_px[0] < centre_px else lab_px[0] + 10
+        tx = lab_px[0] - tw - 12 if lab_px[0] < centre_px else lab_px[0] + 12
         dr.text((tx, lab_px[1] - 15), txt, font=mono, fill=col)
+
+    def summary(direction):
+        widths = {}
+        for name, d, _, _ in pins:
+            if d == direction:
+                base, bit = split(name)
+                widths[base] = max(widths.get(base, -1), -1 if bit is None else bit)
+        return ", ".join(b if w < 0 else "%s[%d:0]" % (b, w) for b, w in widths.items())
 
     dr.text((50, 40), args.title, font=bold, fill=(240, 246, 252))
     dr.text((50, 100), "Hardware is the new Software", font=reg, fill=(88, 196, 220))
-    dr.text((50, args.size[1] - 150), "■ inputs: clk, rst_n, en", font=reg, fill=INPUT)
-    dr.text((50, args.size[1] - 115), "■ outputs: count[7:0], wrap", font=reg, fill=OUTPUT)
+    dr.text((50, args.size[1] - 150), "■ inputs: " + summary("INPUT"), font=reg, fill=INPUT)
+    dr.text((50, args.size[1] - 115), "■ outputs: " + summary("OUTPUT"), font=reg, fill=OUTPUT)
     legend1 = ("diffusion (green) · polysilicon gates (red) · local interconnect (blue) · contacts and vias (grey)"
                + ("" if args.no_wiring else
                   " · metal 1 (purple: cell power rails, short wires) · metal 2 (pink) · metal 3 (cyan)"))
@@ -181,7 +209,7 @@ def main():
     dr.text((50, img.height - 42), legend2, font=small, fill=(139, 148, 158))
 
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
-    img.save(args.out)
+    img.save(args.out, quality=88)   # quality applies to .webp/.jpg; ignored for .png
     print("Wrote", args.out)
 
 

@@ -26,7 +26,7 @@ isometric view, with the 3 input pins and 9 output pins at their real places
 on the die edge. The power straps on the top two metal layers are hidden so
 you can see down to the transistors.
 
-![Isometric render of the counter chip: transistors, metal wiring and labelled input and output pins](docs/images/counter_iso_transistors.png)
+![Isometric render of the counter chip: transistors, metal wiring and labelled input and output pins](docs/images/counter_iso_transistors.webp)
 
 The same chip as a simplified block drawing: what goes in, what comes out,
 and the parts synthesis builds inside.
@@ -36,15 +36,18 @@ and the parts synthesis builds inside.
 ## The examples
 
 Every picture below is rendered straight from the layout file that `make pnr`
-produces for that design.
+produces for that design: the transistors and the wiring on metal 1 to 3 in
+an isometric view, with the input pins (orange) and output pins (green)
+labelled at their real places on the die edge. Each design's page has more
+3D views.
 
 | | Design | What it is | Size in sky130 |
 | --- | --- | --- | --- |
-| <img src="docs/images/counter_3d.webp" width="260"> | **[counter](designs/counter)**<br>Basic | Up-counter with enable: the whole flow in one afternoon | 27 cells, 60 × 60 µm, 100 MHz |
-| <img src="docs/images/pwm_3d.webp" width="260"> | **[pwm](designs/pwm)**<br>Basic | PWM generator: timer, motor/LED driver, 1-bit DAC | 71 cells, 60 × 60 µm, 100 MHz |
-| <img src="docs/images/fir_3d.webp" width="260"> | **[fir](designs/fir)**<br>Advanced | 16-tap low-pass FIR filter with one shared multiplier | 2,100 cells, 253 × 253 µm, 100 MHz |
-| <img src="docs/images/iir_3d.webp" width="260"> | **[iir](designs/iir)**<br>Advanced | 2nd-order Butterworth IIR biquad, one sample per clock | 1,600 cells, 235 × 235 µm, 50 MHz |
-| <img src="docs/images/fft_3d.webp" width="260"> | **[fft](designs/fft)**<br>Advanced | 8-point complex radix-2 FFT | 9,100 cells, 449 × 449 µm, 50 MHz |
+| <img src="docs/images/counter_iso_transistors.webp" width="300"> | **[counter](designs/counter)**<br>Basic | Up-counter with enable: the whole flow in one afternoon | 27 cells, 60 × 60 µm, 100 MHz |
+| <img src="docs/images/pwm_iso_transistors.webp" width="300"> | **[pwm](designs/pwm)**<br>Basic | PWM generator: timer, motor/LED driver, 1-bit DAC | 71 cells, 60 × 60 µm, 100 MHz |
+| <img src="docs/images/fir_iso_transistors.webp" width="300"> | **[fir](designs/fir)**<br>Advanced | 16-tap low-pass FIR filter with one shared multiplier | 2,100 cells, 253 × 253 µm, 100 MHz |
+| <img src="docs/images/iir_iso_transistors.webp" width="300"> | **[iir](designs/iir)**<br>Advanced | 2nd-order Butterworth IIR biquad, one sample per clock | 1,600 cells, 235 × 235 µm, 50 MHz |
+| <img src="docs/images/fft_iso_transistors.webp" width="300"> | **[fft](designs/fft)**<br>Advanced | 8-point complex radix-2 FFT | 9,100 cells, 449 × 449 µm, 50 MHz |
 
 All five designs pass their testbenches and route with 0 DRC violations and
 positive timing slack.
