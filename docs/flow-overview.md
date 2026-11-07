@@ -37,8 +37,9 @@ point assumes the RTL is functionally correct.
   standard cells: their logic function, area, timing and power.
 - **Tool:** Yosys (`synth`, then `dfflibmap` + `abc` for a real library).
 - **Output:** a gate-level netlist, i.e. Verilog that only instantiates cells.
-- **Look at:** `stat`. How many flip-flops? (There should be exactly `WIDTH`.)
-  What is the area? `make show` draws the circuit.
+- **Look at:** `stat`. How many flip-flops? (For the counter, exactly `WIDTH`.)
+  What is the area? `make show` draws the circuit. The scripts are in
+  `scripts/synth_generic.tcl` and `scripts/synth_sky130.tcl`.
 
 ## 4. Floorplan
 

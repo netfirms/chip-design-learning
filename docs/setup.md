@@ -38,6 +38,17 @@ brew install --cask gtkwave       # or use Surfer: https://surfer-project.org/
 Everything in this repo works with Ubuntu 24.04's packages (Yosys 0.33,
 Verilator 5.x); CI uses them.
 
+## Python (filter design and plots)
+
+The DSP modules use Python 3 with numpy and matplotlib to design filter
+coefficients (`python/dsp_coeffs.py`) and plot testbench results
+(`make plot`):
+
+```sh
+python3 -m venv .venv && source .venv/bin/activate   # optional
+pip install -r python/requirements.txt
+```
+
 ## Back end: OpenROAD-flow-scripts in Docker
 
 [OpenROAD-flow-scripts](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts)
@@ -51,7 +62,8 @@ make pnr                           # runs scripts/orfs.sh for the counter
 ```
 
 `make pnr` mounts this repo at `/work` inside the container and writes all
-outputs to `designs/counter/build/orfs/` on your machine. To pin a specific
+outputs to `designs/<name>/build/orfs/` on your machine. Every design
+has the same `make pnr` target. To pin a specific
 image, pass `ORFS_IMAGE=openroad/orfs:<tag>`.
 
 ### Viewing the layout

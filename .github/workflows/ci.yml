@@ -16,15 +16,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends iverilog verilator yosys
 
-      - name: Lint + simulate + generic synthesis
+      - name: Lint + simulate + generic synthesis (every design)
         run: make check
 
-      - name: Synthesis onto sky130 cells
-        run: make synth-sky130
+      - name: Synthesis onto sky130 cells (every design)
+        run: make check-sky130
 
       - name: Upload build outputs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: counter-build
-          path: designs/counter/build/
+          name: build-outputs
+          path: designs/*/build/

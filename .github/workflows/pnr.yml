@@ -1,0 +1,35 @@
+# Full RTL-to-GDS with OpenROAD-flow-scripts for every design.
+# Runs when a design changes, or by hand from the Actions tab.
+name: pnr
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "designs/**"
+      - "scripts/orfs.sh"
+      - "mk/**"
+
+jobs:
+  pnr:
+    name: place & route (${{ matrix.design }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        design: [counter, pwm, fir, iir, fft]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run OpenROAD-flow-scripts
+        run: make -C designs/${{ matrix.design }} pnr
+
+      - name: Upload layout and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnr-${{ matrix.design }}
+          path: |
+            designs/${{ matrix.design }}/build/orfs/reports/
+            designs/${{ matrix.design }}/build/orfs/logs/
+            designs/${{ matrix.design }}/build/orfs/results/**/6_final.gds
