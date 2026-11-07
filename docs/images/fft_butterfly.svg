@@ -1,0 +1,123 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1040 610' width='1040' height='610'>
+<rect width='1040' height='610' rx='14' fill='#0d1117'/>
+<defs><marker id='arr' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#8b949e'/></marker></defs>
+<text x='40' y='34' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='18' fill='#e6edf3' text-anchor='start' font-weight='600' dominant-baseline='middle' xml:space='preserve'>designs/fft: 8-point radix-2 decimation-in-time FFT</text>
+<text x='70' y='90' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[0]</text>
+<text x='840' y='90' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[0]</text>
+<circle cx='120' cy='90' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='90' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='90' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='90' r='4' fill='#e6edf3'/>
+<text x='70' y='148' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[4]</text>
+<text x='840' y='148' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[1]</text>
+<circle cx='120' cy='148' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='148' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='148' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='148' r='4' fill='#e6edf3'/>
+<text x='70' y='206' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[2]</text>
+<text x='840' y='206' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[2]</text>
+<circle cx='120' cy='206' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='206' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='206' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='206' r='4' fill='#e6edf3'/>
+<text x='70' y='264' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[6]</text>
+<text x='840' y='264' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[3]</text>
+<circle cx='120' cy='264' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='264' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='264' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='264' r='4' fill='#e6edf3'/>
+<text x='70' y='322' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[1]</text>
+<text x='840' y='322' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[4]</text>
+<circle cx='120' cy='322' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='322' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='322' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='322' r='4' fill='#e6edf3'/>
+<text x='70' y='380' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[5]</text>
+<text x='840' y='380' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[5]</text>
+<circle cx='120' cy='380' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='380' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='380' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='380' r='4' fill='#e6edf3'/>
+<text x='70' y='438' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[3]</text>
+<text x='840' y='438' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[6]</text>
+<circle cx='120' cy='438' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='438' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='438' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='438' r='4' fill='#e6edf3'/>
+<text x='70' y='496' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>x[7]</text>
+<text x='840' y='496' font-family='JetBrains Mono, Consolas, monospace' font-size='15' fill='#e6edf3' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>X[7]</text>
+<circle cx='120' cy='496' r='4' fill='#e6edf3'/>
+<circle cx='340' cy='496' r='4' fill='#e6edf3'/>
+<circle cx='560' cy='496' r='4' fill='#e6edf3'/>
+<circle cx='780' cy='496' r='4' fill='#e6edf3'/>
+<line x1='120' y1='90' x2='340' y2='90' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='148' x2='340' y2='148' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='90' x2='340' y2='148' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='148' x2='340' y2='90' stroke='#3fae49' stroke-width='1.6'/>
+<text x='318' y='164' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#3fae49' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='120' y1='206' x2='340' y2='206' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='264' x2='340' y2='264' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='206' x2='340' y2='264' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='264' x2='340' y2='206' stroke='#3fae49' stroke-width='1.6'/>
+<text x='318' y='280' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#3fae49' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='120' y1='322' x2='340' y2='322' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='380' x2='340' y2='380' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='322' x2='340' y2='380' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='380' x2='340' y2='322' stroke='#3fae49' stroke-width='1.6'/>
+<text x='318' y='396' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#3fae49' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='120' y1='438' x2='340' y2='438' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='496' x2='340' y2='496' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='438' x2='340' y2='496' stroke='#3fae49' stroke-width='1.6'/>
+<line x1='120' y1='496' x2='340' y2='438' stroke='#3fae49' stroke-width='1.6'/>
+<text x='318' y='512' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#3fae49' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='340' y1='90' x2='560' y2='90' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='206' x2='560' y2='206' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='90' x2='560' y2='206' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='206' x2='560' y2='90' stroke='#6d8fd8' stroke-width='1.6'/>
+<text x='538' y='222' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#6d8fd8' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='340' y1='148' x2='560' y2='148' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='264' x2='560' y2='264' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='148' x2='560' y2='264' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='264' x2='560' y2='148' stroke='#6d8fd8' stroke-width='1.6'/>
+<text x='374' y='280' font-family='JetBrains Mono, Consolas, monospace' font-size='12' fill='#58c4dc' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>W2</text>
+<text x='538' y='280' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#6d8fd8' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='340' y1='322' x2='560' y2='322' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='438' x2='560' y2='438' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='322' x2='560' y2='438' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='438' x2='560' y2='322' stroke='#6d8fd8' stroke-width='1.6'/>
+<text x='538' y='454' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#6d8fd8' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='340' y1='380' x2='560' y2='380' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='496' x2='560' y2='496' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='380' x2='560' y2='496' stroke='#6d8fd8' stroke-width='1.6'/>
+<line x1='340' y1='496' x2='560' y2='380' stroke='#6d8fd8' stroke-width='1.6'/>
+<text x='374' y='512' font-family='JetBrains Mono, Consolas, monospace' font-size='12' fill='#58c4dc' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>W2</text>
+<text x='538' y='512' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#6d8fd8' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='560' y1='90' x2='780' y2='90' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='322' x2='780' y2='322' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='90' x2='780' y2='322' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='322' x2='780' y2='90' stroke='#e05fa6' stroke-width='1.6'/>
+<text x='758' y='338' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#e05fa6' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='560' y1='148' x2='780' y2='148' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='380' x2='780' y2='380' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='148' x2='780' y2='380' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='380' x2='780' y2='148' stroke='#e05fa6' stroke-width='1.6'/>
+<text x='594' y='396' font-family='JetBrains Mono, Consolas, monospace' font-size='12' fill='#58c4dc' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>W1</text>
+<text x='758' y='396' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#e05fa6' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='560' y1='206' x2='780' y2='206' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='438' x2='780' y2='438' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='206' x2='780' y2='438' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='438' x2='780' y2='206' stroke='#e05fa6' stroke-width='1.6'/>
+<text x='594' y='454' font-family='JetBrains Mono, Consolas, monospace' font-size='12' fill='#58c4dc' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>W2</text>
+<text x='758' y='454' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#e05fa6' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<line x1='560' y1='264' x2='780' y2='264' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='496' x2='780' y2='496' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='264' x2='780' y2='496' stroke='#e05fa6' stroke-width='1.6'/>
+<line x1='560' y1='496' x2='780' y2='264' stroke='#e05fa6' stroke-width='1.6'/>
+<text x='594' y='512' font-family='JetBrains Mono, Consolas, monospace' font-size='12' fill='#58c4dc' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>W3</text>
+<text x='758' y='512' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='15' fill='#e05fa6' text-anchor='middle' font-weight='400' dominant-baseline='middle' xml:space='preserve'>−</text>
+<text x='230.0' y='66' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='14' fill='#3fae49' text-anchor='middle' font-weight='600' dominant-baseline='middle' xml:space='preserve'>stage 1 (span 1)</text>
+<text x='450.0' y='66' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='14' fill='#6d8fd8' text-anchor='middle' font-weight='600' dominant-baseline='middle' xml:space='preserve'>stage 2 (span 2)</text>
+<text x='670.0' y='66' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='14' fill='#e05fa6' text-anchor='middle' font-weight='600' dominant-baseline='middle' xml:space='preserve'>stage 3 (span 4)</text>
+<text x='40' y='562' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='14' fill='#8b949e' text-anchor='start' font-weight='400' dominant-baseline='middle' xml:space='preserve'>Each X is one butterfly: (a + W·b)/2 and (a − W·b)/2.  W⁰ = 1, W² = −j (free), W¹, W³ = √2/2·(±1 − j) (one constant multiply).</text>
+<text x='40' y='588' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='14' fill='#8b949e' text-anchor='start' font-weight='400' dominant-baseline='middle' xml:space='preserve'>Inputs arrive in bit-reversed order (1 = 001 → 100 = 4); outputs come out in natural order.</text>
+</svg>

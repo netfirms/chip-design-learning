@@ -1,2 +1,5 @@
 numpy
 matplotlib
+# only for python/render_3d.py
+gdstk
+pyvista

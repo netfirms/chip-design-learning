@@ -1,7 +1,10 @@
-# counter
+# counter: the whole flow in one afternoon (Module 1, basic)
+
+![counter in 3D](../../docs/images/counter_3d.webp)
 
 A parameterised up-counter with enable, asynchronous active-low reset and a
-`wrap` output. It is the reference design for every stage of the flow.
+`wrap` output. It is small enough to predict every result by hand, so it is
+the design to learn the tools on.
 
 | Target              | What it does                                         | Output (in `build/`)          |
 | ------------------- | ---------------------------------------------------- | ----------------------------- |
@@ -15,9 +18,15 @@ A parameterised up-counter with enable, asynchronous active-low reset and a
 | `make pnr`          | OpenROAD-flow-scripts, RTL to GDS (Docker)           | `orfs/results/.../6_final.gds` |
 | `make pnr-gui`      | OpenROAD GUI on the final layout                     |                               |
 
-Expected results with the default `WIDTH = 8`: the testbench prints `PASS`,
-and sky130 synthesis gives 8 `sky130_fd_sc_hd__dfrtp_1` flip-flops and about
-24 cells in total.
-`make pnr` finishes in well under a minute with 0 DRC violations and positive
-setup slack (about 5 ns at the 10 ns clock in `orfs/constraint.sdc`). Images of
-each stage are written to `build/orfs/reports/sky130hd/counter/base/*.webp`.
+## Results
+
+| Testbench | Cells | Die | Clock | Worst slack | DRC |
+| --- | --- | --- | --- | --- | --- |
+| `PASS: 100 cycles, 5 wrap-arounds, 0 errors` | 27 (8 flip-flops) | 60 × 60 µm | 100 MHz | +5.24 ns | 0 |
+
+`make pnr` finishes in well under a minute. Pictures of each stage are
+written to `build/orfs/reports/sky130hd/counter/base/*.webp`.
+
+| Close-up of the wiring | Transistor level |
+| --- | --- |
+| ![](../../docs/images/counter_3d_closeup.webp) | ![](../../docs/images/counter_3d_transistors.webp) |

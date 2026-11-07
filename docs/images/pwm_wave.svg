@@ -1,0 +1,12 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 260' width='1000' height='260'>
+<rect width='1000' height='260' rx='14' fill='#0d1117'/>
+<defs><marker id='arr' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#8b949e'/></marker></defs>
+<text x='40' y='34' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='18' fill='#e6edf3' text-anchor='start' font-weight='600' dominant-baseline='middle' xml:space='preserve'>designs/pwm: duty cycle sets the average voltage</text>
+<path d='M140,120 L140,80 L190.0,80 L190.0,120 L340,120 L340,80 L390.0,80 L390.0,120 L540,120 L540,80 L590.0,80 L590.0,120 L740,120 L740,80 L790.0,80 L790.0,120 L940,120' fill='none' stroke='#3fae49' stroke-width='2.2'/>
+<line x1='140' y1='110.0' x2='940' y2='110.0' stroke='#e8c547' stroke-width='2' stroke-dasharray='6 4'/>
+<text x='130' y='100.0' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='13' fill='#8b949e' text-anchor='end' font-weight='400' dominant-baseline='middle' xml:space='preserve'>duty = 25%</text>
+<path d='M140,220 L140,180 L290.0,180 L290.0,220 L340,220 L340,180 L490.0,180 L490.0,220 L540,220 L540,180 L690.0,180 L690.0,220 L740,220 L740,180 L890.0,180 L890.0,220 L940,220' fill='none' stroke='#3fae49' stroke-width='2.2'/>
+<line x1='140' y1='190.0' x2='940' y2='190.0' stroke='#e8c547' stroke-width='2' stroke-dasharray='6 4'/>
+<text x='130' y='200.0' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='13' fill='#8b949e' text-anchor='end' font-weight='400' dominant-baseline='middle' xml:space='preserve'>duty = 75%</text>
+<text x='936' y='240' font-family='Inter, Segoe UI, Helvetica, Arial, sans-serif' font-size='13' fill='#e8c547' text-anchor='end' font-weight='400' dominant-baseline='middle' xml:space='preserve'>dashed: after an RC low-pass, V = VDD × duty / 2^WIDTH</text>
+</svg>

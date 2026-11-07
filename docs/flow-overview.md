@@ -4,12 +4,7 @@ A digital chip starts as Verilog and ends as GDS, a file of polygons that a
 foundry turns into masks. Each stage below takes the previous stage's output,
 and each has a report you should learn to read.
 
-```
- RTL (.v) ──► simulation ──► synthesis ──► floorplan ──► placement ──► CTS ──► routing ──► finish
-   ▲           Icarus/        Yosys          OpenROAD     OpenROAD      OpenROAD  OpenROAD    GDS
-   │           Verilator      netlist        die, pins,   cells get     clock     wires on    + signoff
-   └── testbench               of cells      power grid   x,y coords    tree      metal       (DRC/LVS)
-```
+![The RTL-to-GDS flow](images/flow.svg)
 
 Static timing analysis (STA, OpenSTA inside OpenROAD) runs after almost every
 back-end step: it checks that every path between flip-flops fits in the clock
@@ -24,6 +19,8 @@ period given in the SDC file.
 
 Simulation is where nearly all bugs should be found. Everything after this
 point assumes the RTL is functionally correct.
+
+![FIR simulation output](images/fir_sim.png)
 
 ## 2. Lint
 
@@ -48,6 +45,10 @@ point assumes the RTL is functionally correct.
   and builds the power distribution network (VDD/VSS straps).
 - **Output:** `2_floorplan.odb`.
 
+The layers the back end works with, from transistors up to the power grid:
+
+![sky130 layer stack](images/sky130_stack.svg)
+
 ## 5. Placement
 
 - Global placement spreads cells to minimise wire length, then detailed
@@ -55,17 +56,27 @@ point assumes the RTL is functionally correct.
 - `PLACE_DENSITY` controls how tightly cells are packed.
 - **Output:** `3_place.odb`. **Look at:** density map in the GUI.
 
+![FIR placement](images/fir_final_placement.webp)
+
 ## 6. Clock tree synthesis (CTS)
 
 - Builds a buffer tree so the clock reaches every flip-flop at nearly the same
   time (low *skew*).
 - **Look at:** `4_cts` reports: skew, and setup/hold slack after CTS.
 
+![FIR clock tree](images/fir_final_clocks.webp)
+
 ## 7. Routing
 
 - Global routing plans which regions each net goes through; detailed routing
   draws the actual wires on metal layers `met1`..`met5` and vias.
 - **Output:** `5_route.odb`. **Look at:** DRC violations count (should be 0).
+
+Routed FIR (left) and its routing congestion map (right):
+
+| Routing | Congestion |
+| --- | --- |
+| ![](images/fir_final_routing.webp) | ![](images/fir_final_congestion.webp) |
 
 ## 8. Finish and signoff
 
@@ -75,6 +86,26 @@ point assumes the RTL is functionally correct.
   pictures of each stage (`final_all.webp`, `final_routing.webp`, ...).
 - Real tapeouts also run full DRC (design rules) and LVS (layout vs.
   schematic), e.g. with Magic, KLayout and Netgen.
+
+The flow also checks the power grid: the IR-drop map shows how much the
+supply voltage sags across the FIR when it is busy (darker is better):
+
+![FIR IR drop](images/fir_final_ir_drop.webp)
+
+The final layout of the counter as the flow draws it, and the same GDS
+rendered in 3D by `python/render_3d.py`:
+
+| 2D (ORFS) | 3D |
+| --- | --- |
+| ![](images/counter_final_layout.webp) | ![](images/counter_3d.webp) |
+
+Render any design yourself after `make pnr`:
+
+```sh
+pip install gdstk pyvista            # Linux servers also need: apt install libosmesa6
+python3 python/render_3d.py designs/fir/build/orfs/results/sky130hd/fir/base/6_final.gds -o fir.webp
+python3 python/render_3d.py <gds> -o zoom.webp --region 100 100 130 115   # close-up, in um
+```
 
 ## Reading timing reports
 
@@ -89,3 +120,7 @@ The key numbers in ORFS reports (`reports/sky130hd/counter/base/`):
 
 To see what happens when timing fails, set `clk_period` in
 `orfs/constraint.sdc` to something impossible like `1.0` and rerun `make pnr`.
+
+The worst path of the FIR, highlighted on the layout (`final_worst_path.webp`):
+
+![FIR worst timing path](images/fir_final_worst_path.webp)

@@ -7,7 +7,7 @@ local interconnect (li1) and five metal layers. Vias are drawn as pillars.
 
     make pnr                               # in a design directory, first
     python3 python/render_3d.py designs/fft/build/orfs/results/sky130hd/fft8/base/6_final.gds \
-        -o fft_3d.png
+        -o fft_3d.webp
     python3 python/render_3d.py <gds> -o zoom.png --region 20 20 45 35   # close-up (um)
 
 Needs gdstk and pyvista (pip install gdstk pyvista). Headless machines also
@@ -66,6 +66,7 @@ def main():
     ap.add_argument("--skip", nargs="*", default=[], help="layer names to leave out, e.g. met5")
     ap.add_argument("--background", default="#0d1117")
     ap.add_argument("--title", help="overlay a title on the left (banner style)")
+    ap.add_argument("--tagline", default="", help="accent-coloured line under the title")
     ap.add_argument("--subtitle", default="", help="smaller text under the title")
     ap.add_argument("--caption", default="", help="small caption, bottom right")
     args = ap.parse_args()
@@ -127,13 +128,16 @@ def main():
     pl.camera.up = (0, 0, 1)
     pl.camera.view_angle = 30
     pl.camera.zoom(args.zoom)
-    pl.screenshot(args.out)
+    from PIL import Image
+    img = Image.fromarray(pl.screenshot(return_img=True))
     if args.title or args.caption:
-        overlay_text(args.out, args.title, args.subtitle, args.caption, args.background)
+        img = overlay_text(img, args.title, args.tagline, args.subtitle, args.caption,
+                           args.background)
+    img.save(args.out, quality=88)   # .png or .webp, chosen by the extension
     print(f"Wrote {args.out}")
 
 
-def overlay_text(path, title, subtitle, caption, background):
+def overlay_text(img, title, tagline, subtitle, caption, background):
     """Fade the left side into the background and write text on it."""
     from PIL import Image, ImageColor, ImageDraw, ImageFont
 
@@ -145,7 +149,7 @@ def overlay_text(path, title, subtitle, caption, background):
                 continue
         return ImageFont.load_default()
 
-    img = Image.open(path).convert("RGB")
+    img = img.convert("RGB")
     W, H = img.size
     bg = ImageColor.getrgb(background)
     if title:
@@ -158,9 +162,14 @@ def overlay_text(path, title, subtitle, caption, background):
     reg = ["/usr/share/fonts/opentype/inter/Inter-Regular.otf", "DejaVuSans.ttf"]
     x = int(0.05 * W)
     if title:
+        y = int(H * (0.24 if tagline else 0.30))
         ft = font(bold, int(H * 0.12))
-        d.text((x, int(H * 0.30)), title, font=ft, fill=(240, 246, 252))
-        y = int(H * 0.30) + int(H * 0.17)
+        d.text((x, y), title, font=ft, fill=(240, 246, 252))
+        y += int(H * 0.17)
+        if tagline:
+            fa = font(bold, int(H * 0.06))
+            d.text((x, y), tagline, font=fa, fill=(88, 196, 220))
+            y += int(H * 0.10)
         fs = font(reg, int(H * 0.042))
         for line in subtitle.split("\\n"):
             d.text((x, y), line, font=fs, fill=(173, 186, 199))
@@ -173,7 +182,7 @@ def overlay_text(path, title, subtitle, caption, background):
         d.rectangle((x0 - pad, y0 - pad, x0 + tw + pad, y0 + int(H * 0.028) + 2 * pad),
                     fill=bg)
         d.text((x0, y0), caption, font=fc, fill=(139, 148, 158))
-    img.save(path)
+    return img
 
 
 if __name__ == "__main__":

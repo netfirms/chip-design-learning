@@ -49,6 +49,14 @@ python3 -m venv .venv && source .venv/bin/activate   # optional
 pip install -r python/requirements.txt
 ```
 
+### 3D layout renders (optional)
+
+`python/render_3d.py` turns a routed GDS into pictures like the ones in this
+repo, and `scripts/render_images.sh` regenerates all of them. It needs
+`gdstk` and `pyvista` (in `python/requirements.txt`). On a headless Linux
+machine, also install an off-screen OpenGL library:
+`sudo apt-get install libosmesa6`.
+
 ## Back end: OpenROAD-flow-scripts in Docker
 
 [OpenROAD-flow-scripts](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts)

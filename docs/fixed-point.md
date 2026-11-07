@@ -15,6 +15,8 @@ The real value is
 real = v / 2^n
 ```
 
+![Q1.15 bit layout](images/qformat.svg)
+
 | Format | Bits | Range                | Resolution (1 LSB)   | Used for                      |
 | ------ | ---- | -------------------- | -------------------- | ----------------------------- |
 | Q1.15  | 16   | [-1, 1 - 2^-15]      | 3.05e-5 (~ -90 dB)   | samples, FIR coefficients     |
@@ -42,7 +44,10 @@ has 4 guard bits.
 
 - *Truncation* (`>>> n`) rounds toward minus infinity: cheap, but biased by
   -0.5 LSB on average. The FFT example uses it, and `make plot` in
-  `designs/fft` shows the resulting error histogram leaning negative.
+  `designs/fft` shows the resulting error histogram leaning negative
+  (right-hand plot):
+
+  ![FFT error histogram](images/fft_sim.png)
 - *Round to nearest* (`(x + 2^(n-1)) >>> n`) costs one adder and has no bias.
   The FIR and IIR examples use it.
 
@@ -91,6 +96,8 @@ quantisation. For the FIR the change is a fraction of a dB. IIR filters are
 more sensitive: the poles move, and with too few bits a filter with poles
 near the unit circle can become unstable. The script prints the pole radius,
 which must stay below 1.
+
+![Floating vs. fixed-point filter response](images/filters.png)
 
 ## Exercises
 

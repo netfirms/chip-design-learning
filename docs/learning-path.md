@@ -1,4 +1,10 @@
+![Hardware is the new Software](images/banner.webp)
+
 # Fast track: digital chip design for EE students
+
+> **Hardware is the new Software.** You will write chips the way you write
+> programs: in a text editor, tested by scripts, built by a flow, versioned
+> in git.
 
 This course is for electronics and electrical engineering students who
 already know circuits, digital logic and signals & systems, and want to turn
@@ -19,6 +25,8 @@ through the same flow:
 ```
 make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 ```
+
+![The flow](images/flow.svg)
 
 | #  | Module                          | Design            | Level    | Key idea                                  |
 | -- | ------------------------------- | ----------------- | -------- | ----------------------------------------- |
@@ -41,6 +49,16 @@ Goal: run every tool once on a design simple enough that you can predict
 every result, so you learn the tools rather than the design.
 
 Read: [flow-overview.md](flow-overview.md), [setup.md](setup.md).
+
+What you will build, and what it looks like as a chip (60 × 60 µm, the
+yellow and orange bars are the power grid on the top metal layers):
+
+![counter in 3D](images/counter_3d.webp)
+
+Every layout in this course uses the same stack of layers, from transistors
+at the bottom to thick power metal at the top:
+
+![sky130 layer stack](images/sky130_stack.svg)
 
 Verilog you need now: `module`, `input/output`, `wire` vs. `reg`,
 `always @(posedge clk)`, non-blocking `<=` for flip-flops, `assign` for
@@ -66,8 +84,12 @@ analog: average voltage = VDD x duty / 2^WIDTH.
 - Double-buffering a register so updates never glitch the output
 - Registered outputs vs. combinational outputs
 
+![PWM waveforms](images/pwm_wave.svg)
+
 - [ ] `make sim plot` in `designs/pwm`. The plot shows the PWM bits and the
       output of a digital "RC filter".
+
+![PWM testbench plot](images/pwm_sim.png)
 - [ ] **Exercise:** with a 100 MHz clock, what PWM frequency does WIDTH=8
       give? What WIDTH would you need for 16-bit audio, and what would the
       PWM frequency be? (This is why audio DACs use sigma-delta instead.)
@@ -83,8 +105,12 @@ every signal needs.
 
 Read: [fixed-point.md](fixed-point.md).
 
+![Q1.15 format](images/qformat.svg)
+
 - [ ] Run `python3 python/dsp_coeffs.py --plot` and compare the floating and
       fixed-point responses in `build/filters.png`.
+
+![Filter responses, floating vs. fixed point](images/filters.png)
 - [ ] Do the exercises at the end of `fixed-point.md`.
 
 ## Module 4: FIR filters (`designs/fir`)
@@ -97,11 +123,17 @@ throughput vs. area trade-off.
 - Valid/ready handshakes
 - Bit-exact verification against a reference model
 
+![FIR architecture](images/fir_arch.svg)
+
 - [ ] `make sim plot`. The right-hand plot is |H(f)| *measured from the
       hardware's output* for random input. Compare it with the design
       response from `dsp_coeffs.py`.
+
+![FIR testbench plot](images/fir_sim.png)
 - [ ] `make synth-sky130` and `make pnr`. How much of the area is the delay
       line (256 flip-flops) vs. the multiplier?
+
+![FIR close-up in 3D](images/fir_3d_closeup.webp)
 - [ ] **Exercise:** change the cutoff in `dsp_coeffs.py` to 0.2 fs, paste the
       new coefficients into `fir.v` and the testbench, and re-run.
 - [ ] **Exercise:** the coefficients are symmetric (h[k] = h[15-k]). Add
@@ -120,8 +152,12 @@ makes hardware harder.
 - Quantisation moves poles; saturation prevents overflow oscillation
 - Why you cannot simply pipeline a feedback loop
 
+![IIR biquad, Direct Form I](images/iir_arch.svg)
+
 - [ ] `make sim plot`. Note the step response settles to exactly the input
       (DC gain 1).
+
+![IIR testbench plot](images/iir_sim.png)
 - [ ] `make pnr`. Find the critical path in the timing report: it goes
       around the feedback loop (y[n-1] -> multiply -> add -> y[n]).
 - [ ] **Exercise:** turn the low-pass into a high-pass (see the RBJ
@@ -140,10 +176,18 @@ butterfly structure.
   constant multiply
 - Scaling by 1/2 per stage to prevent growth; truncation bias
 
+![8-point FFT butterfly network](images/fft_butterfly.svg)
+
 - [ ] `make sim plot`. Check the impulse, DC, single-bin and complex-tone
       frames against what you expect from theory.
+
+![FFT testbench plot](images/fft_sim.png)
 - [ ] Draw the 8-point butterfly diagram on paper and match each
       `fft_bfly` instance in `fft8.v` to it.
+
+The 9,100 cells of the FFT, down at the transistor level:
+
+![FFT transistors in 3D](images/fft_3d_transistors.webp)
 - [ ] **Exercise:** add an inverse FFT mode (conjugate the twiddles, or
       swap re/im on input and output) and test that IFFT(FFT(x)) = x/8.
 - [ ] **Exercise:** register the outputs of stage 2 (pipelining) and see how
@@ -160,8 +204,29 @@ For each design, `build/orfs/reports/sky130hd/<top>/base/` has timing,
 area, power and images of each stage. See
 [flow-overview.md](flow-overview.md#reading-timing-reports).
 
-- [ ] Fill in this table for each design from `6_finish.rpt` and
-      `synth_stat.txt`: cells, area, worst slack, total power.
+These are the numbers `make pnr` gives for each design (sky130hd, typical
+corner). Reproduce them, then use them for the exercises:
+
+| Design  | Cells | Cell area (µm²) | Die (µm) | Clock  | Worst slack | Fastest clock | Power  |
+| ------- | ----: | --------------: | -------: | -----: | ----------: | ------------: | -----: |
+| counter |    27 |             339 |   60 × 60 | 10 ns |     5.24 ns |      ~210 MHz | 0.08 mW |
+| pwm     |    71 |             908 |   60 × 60 | 10 ns |     6.15 ns |      ~260 MHz | 0.11 mW |
+| fir     | 2,123 |          25,200 | 253 × 253 | 10 ns |     0.06 ns |      ~100 MHz | 4.9 mW |
+| iir     | 1,560 |          19,000 | 235 × 235 | 20 ns |     9.07 ns |       ~90 MHz | 1.3 mW |
+| fft     | 9,073 |          79,800 | 449 × 449 | 20 ns |     5.77 ns |       ~70 MHz | 2.7 mW |
+
+"Fastest clock" is 1 / (clock period - worst slack), a first estimate; the
+tools re-optimise when you actually tighten the constraint.
+
+The flow also draws pictures of each stage. For the FIR, the placement, the
+clock tree and the worst timing path:
+
+| Placement | Clock tree | Worst path |
+| --- | --- | --- |
+| ![](images/fir_final_placement.webp) | ![](images/fir_final_clocks.webp) | ![](images/fir_final_worst_path.webp) |
+
+- [ ] Run `make pnr` for each design and check your numbers against the
+      table (`6_finish.rpt`, `synth_stat.txt`).
 - [ ] **Exercise:** find the highest clock frequency each DSP design can
       reach by lowering `clk_period` in its `orfs/constraint.sdc`. Compute
       the maximum *sample rate* for each (remember the FIR needs 17 cycles
