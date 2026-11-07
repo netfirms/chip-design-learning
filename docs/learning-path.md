@@ -255,6 +255,10 @@ small design fabricated, and it uses the same open-source tools.
 
 ## Further reading
 
+- [Open-source chip design tools](tools.md): every tool by job (simulation,
+  synthesis, place and route, timing, verification, analog, PCB), with where
+  it fits in this course
+
 - *Digital Design and Computer Architecture*, Harris & Harris: Verilog and
   digital design refresher
 - [HDLBits](https://hdlbits.01xz.net/): Verilog practice problems

@@ -12,7 +12,8 @@ hardware (FIR and IIR filters and an FFT), each taken from Verilog through
 simulation, synthesis and place & route on the open SkyWater sky130 process.
 
 **Start here: [the course](docs/learning-path.md)** · [tool setup](docs/setup.md) ·
-[how the flow works](docs/flow-overview.md) · [fixed-point primer](docs/fixed-point.md)
+[how the flow works](docs/flow-overview.md) · [fixed-point primer](docs/fixed-point.md) ·
+[open-source tool links](docs/tools.md)
 
 ![The RTL-to-GDS flow](docs/images/flow.svg)
 
@@ -94,6 +95,7 @@ docs/
   fixed-point.md     Q formats, rounding, saturation for DSP hardware
   flow-overview.md   what each RTL-to-GDS stage does and how to read reports
   setup.md           installing the tools (apt, OSS CAD Suite, Docker)
+  tools.md           map of open-source chip design tools and where each fits
   images/            renders, plots and diagrams used in the docs
 designs/<name>/
   rtl/               synthesisable Verilog
