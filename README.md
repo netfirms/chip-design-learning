@@ -19,11 +19,18 @@ simulation, synthesis and place & route on the open SkyWater sky130 process.
 
 ## A chip, from the outside
 
-The first design, `counter`, as a chip: three input pins, nine output pins,
-and the parts synthesis builds inside (8 flip-flops, an incrementer, the AND
-that detects the wrap, and a clock buffer).
+The first design, `counter`, as it really comes out of `make pnr`: the
+transistors and the wiring between them, seen from the corner in a true
+isometric view, with the 3 input pins and 9 output pins at their real places
+on the die edge. The power straps on the top two metal layers are hidden so
+you can see down to the transistors.
 
-![Isometric drawing of the counter chip with its input and output pins](docs/images/counter_iso.png)
+![Isometric render of the counter chip: transistors, metal wiring and labelled input and output pins](docs/images/counter_iso_transistors.png)
+
+The same chip as a simplified block drawing: what goes in, what comes out,
+and the parts synthesis builds inside.
+
+![Isometric block drawing of the counter chip with its input and output pins](docs/images/counter_iso.png)
 
 ## The examples
 
@@ -115,7 +122,8 @@ python/
   dsp_coeffs.py      designs and quantises the FIR/IIR coefficients
   plot_tb.py         plots testbench output (make plot)
   render_3d.py       3D render of a routed GDS
-  render_iso.py      isometric drawing of the counter chip and its pins
+  render_iso.py      isometric block drawing of the counter chip and its pins
+  render_transistors_iso.py  isometric transistor + wiring render with labelled pins
   make_diagrams.py   the SVG diagrams in docs/images
 scripts/
   synth_*.tcl        Yosys synthesis scripts
