@@ -13,7 +13,8 @@ simulation, synthesis and place & route on the open SkyWater sky130 process.
 
 **Start here: [the course](docs/learning-path.md)** · [tool setup](docs/setup.md) ·
 [how the flow works](docs/flow-overview.md) · [fixed-point primer](docs/fixed-point.md) ·
-[open-source tool links](docs/tools.md)
+[open-source tool links](docs/tools.md) ·
+[slide decks for every module](slides/)
 
 ![The RTL-to-GDS flow](docs/images/flow.svg)
 
@@ -111,6 +112,7 @@ docs/
   flow-overview.md   what each RTL-to-GDS stage does and how to read reports
   setup.md           installing the tools (apt, OSS CAD Suite, Docker)
   tools.md           map of open-source chip design tools and where each fits
+slides/              one Marp slide deck per module (make slides / slides-pdf)
   images/            renders, plots and diagrams used in the docs
 designs/<name>/
   rtl/               synthesisable Verilog

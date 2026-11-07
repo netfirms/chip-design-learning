@@ -1,0 +1,68 @@
+/* @theme course */
+/*
+ * Marp theme for the chip-design-learning decks.
+ * Based on Marp's built-in default theme, tuned for code-heavy slides.
+ */
+@import 'default';
+
+:root {
+  --accent: #0f6e8c;
+  --accent-soft: #e3f1f5;
+  --ink: #1d2328;
+  --muted: #5b6770;
+}
+
+section {
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 26px;
+  color: var(--ink);
+  padding: 56px 64px;
+  background: #fff;
+}
+
+section h1 { color: var(--accent); font-size: 1.6em; margin-bottom: 0.3em; }
+section h2 { color: var(--accent); font-size: 1.35em; margin-bottom: 0.4em; }
+section h3 { color: var(--ink); font-size: 1.05em; }
+section strong { color: var(--accent); }
+section a { color: var(--accent); }
+
+section pre {
+  font-size: 0.68em;
+  line-height: 1.35;
+  border-left: 4px solid var(--accent);
+  background: #f6f8fa;
+}
+section code { font-family: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace; font-variant-ligatures: none; font-feature-settings: 'liga' 0, 'calt' 0; }
+
+section table { font-size: 0.78em; }
+section th { background: var(--accent-soft); }
+
+section blockquote {
+  border-left: 6px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--ink);
+  padding: 0.4em 0.9em;
+  font-size: 0.92em;
+}
+
+/* Title slide: <!-- _class: lead --> */
+section.lead {
+  justify-content: center;
+  background: linear-gradient(135deg, #0f6e8c 0%, #11354a 100%);
+  color: #fff;
+}
+section.lead h1, section.lead h2, section.lead strong, section.lead a { color: #fff; }
+section.lead h1 { font-size: 2.1em; }
+section.lead p { color: #d6e9ef; }
+
+/* Exercise slides: <!-- _class: exercise --> */
+section.exercise { background: #fffaf0; }
+section.exercise h2::before { content: '✎  '; }
+
+/* Smaller text for dense reference slides: <!-- _class: small --> */
+section.small { font-size: 21px; }
+
+/* Two columns: wrap content in <div class="cols"><div>..</div><div>..</div></div> */
+section .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; align-items: start; }
+
+section footer, section header { color: var(--muted); }
