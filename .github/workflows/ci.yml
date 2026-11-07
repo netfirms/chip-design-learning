@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  rtl:
+    name: lint, simulate, synthesise
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends iverilog verilator yosys
+
+      - name: Lint + simulate + generic synthesis
+        run: make check
+
+      - name: Synthesis onto sky130 cells
+        run: make synth-sky130
+
+      - name: Upload build outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: counter-build
+          path: designs/counter/build/
