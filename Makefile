@@ -6,12 +6,14 @@
 #   make check                    # lint + sim + synth for every design (what CI runs)
 #   make check-sky130             # sky130 synthesis for every design
 #   make doctor                   # check which tools are installed
+#   make slides                   # learning decks as HTML (slides/*.html), needs Node.js
+#   make slides-pdf               # learning decks as PDF (slides/pdf/), needs Node.js + Chrome
 
 DESIGN  ?= counter
 DESIGNS := $(notdir $(wildcard designs/*))
 TARGETS := all sim waves lint verilator synth show synth-sky130 pnr pnr-gui plot clean
 
-.PHONY: $(TARGETS) check check-sky130 doctor
+.PHONY: $(TARGETS) check check-sky130 doctor slides slides-pdf
 
 $(TARGETS):
 	$(MAKE) -C designs/$(DESIGN) $@
@@ -27,3 +29,17 @@ doctor:
 		if command -v $$t >/dev/null 2>&1; then printf '  ok       %s\n' $$t; \
 		else printf '  missing  %s\n' $$t; fi; \
 	done
+
+# ---- Learning decks (Marp) -------------------------------------------------
+MARP       ?= npx --yes @marp-team/marp-cli@4.5.1
+DECKS      := $(basename $(notdir $(wildcard slides/0*.md)))
+MARP_FLAGS := --theme-set slides/theme/course.css --html --allow-local-files
+
+# HTML goes next to each deck so the relative image paths keep working.
+# stdin is redirected because marp reads Markdown from a pipe when it has one.
+slides:
+	@for d in $(DECKS); do $(MARP) $(MARP_FLAGS) slides/$$d.md -o slides/$$d.html < /dev/null || exit 1; done
+
+slides-pdf:
+	@mkdir -p slides/pdf
+	@for d in $(DECKS); do $(MARP) $(MARP_FLAGS) --pdf slides/$$d.md -o slides/pdf/$$d.pdf < /dev/null || exit 1; done
