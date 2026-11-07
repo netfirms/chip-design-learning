@@ -17,6 +17,14 @@ simulation, synthesis and place & route on the open SkyWater sky130 process.
 
 ![The RTL-to-GDS flow](docs/images/flow.svg)
 
+## A chip, from the outside
+
+The first design, `counter`, as a chip: three input pins, nine output pins,
+and the parts synthesis builds inside (8 flip-flops, an incrementer, the AND
+that detects the wrap, and a clock buffer).
+
+![Isometric drawing of the counter chip with its input and output pins](docs/images/counter_iso.png)
+
 ## The examples
 
 Every picture below is rendered straight from the layout file that `make pnr`
@@ -107,6 +115,7 @@ python/
   dsp_coeffs.py      designs and quantises the FIR/IIR coefficients
   plot_tb.py         plots testbench output (make plot)
   render_3d.py       3D render of a routed GDS
+  render_iso.py      isometric drawing of the counter chip and its pins
   make_diagrams.py   the SVG diagrams in docs/images
 scripts/
   synth_*.tcl        Yosys synthesis scripts
