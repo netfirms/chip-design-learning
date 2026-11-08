@@ -38,6 +38,7 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 5  | IIR filters                     | `iir`             | Advanced | Feedback, stability, parallel datapath    |
 | 6  | The FFT                         | `fft`             | Advanced | Butterflies, twiddles, scaling            |
 | 6b | The FFT in software vs hardware | `codesign/`       | Advanced | Speed, energy, area; golden models        |
+| 6c | The analog bridge: ADC and DAC  | `analog/`         | Bonus    | Real signals in and out, mixed signal     |
 | 7  | Timing, area and power          | all               | Advanced | Reading reports, making trade-offs        |
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
 | 9  | A RISC-V CPU that runs C        | `riscv`           | Advanced | Instruction set, datapath, gcc on your RTL |
