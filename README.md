@@ -11,7 +11,12 @@ engineering students**. It starts with a counter and finishes with real DSP
 hardware (FIR and IIR filters and an FFT), each taken from Verilog through
 simulation, synthesis and place & route on the open SkyWater sky130 process.
 
-**Start here: [the course](docs/learning-path.md)** · [tool setup](docs/setup.md) ·
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/netfirms/chip-design-learning?quickstart=1)
+
+Nothing to install: open the course in your browser with every tool ready,
+place & route included ([how it works](docs/codespaces.md)).
+
+**Start here: [the course](docs/learning-path.md)** · [browser labs](docs/codespaces.md) · [tool setup](docs/setup.md) ·
 [how the flow works](docs/flow-overview.md) · [fixed-point primer](docs/fixed-point.md) ·
 [open-source tool links](docs/tools.md) ·
 [slide decks for every module](slides/)
@@ -100,6 +105,12 @@ and measure the frequency response from the hardware itself:
 
 ## Quick start
 
+**In the browser:** click **Open in GitHub Codespaces** above, wait for the
+terminal to say *Ready*, and run `make sim` then `make pnr`. See
+[docs/codespaces.md](docs/codespaces.md).
+
+**On your own machine:**
+
 ```sh
 # 1. Front-end tools (see docs/setup.md for macOS and OSS CAD Suite)
 sudo apt-get install iverilog verilator yosys gtkwave graphviz
@@ -111,16 +122,29 @@ make doctor
 # 3. Run the first example
 make sim
 make pnr            # needs Docker; pulls the OpenROAD image once
+
+# 4. Compare every design: area, timing and power charts in ppa/index.html
+make ppa
 ```
+
+### PPA dashboard
+
+CI places and routes every design and publishes a dashboard of area, cell mix,
+setup slack, estimated fmax and power for all of them
+(`python/ppa_dashboard.py`, workflow `pnr`). On `main` it goes to the
+repository's GitHub Pages site; on a pull request it is the `ppa-dashboard`
+artifact of the run, and the job summary shows the same numbers as a table.
 
 ## Repository layout
 
 ```
+.devcontainer/        Codespaces / Dev Container with every tool preinstalled
 docs/
   learning-path.md   the course: 8 modules with exercises
   fixed-point.md     Q formats, rounding, saturation for DSP hardware
   flow-overview.md   what each RTL-to-GDS stage does and how to read reports
   setup.md           installing the tools (apt, OSS CAD Suite, Docker)
+  codespaces.md      browser labs: the whole course in GitHub Codespaces
   tools.md           map of open-source chip design tools and where each fits
 slides/              one Marp slide deck per module (make slides / slides-pdf)
   images/            renders, plots and diagrams used in the docs
@@ -133,6 +157,7 @@ mk/design.mk         shared make rules for every design
 python/
   dsp_coeffs.py      designs and quantises the FIR/IIR coefficients
   plot_tb.py         plots testbench output (make plot)
+  ppa_dashboard.py   area/timing/power dashboard for every design (make ppa)
   render_3d.py       3D render of a routed GDS
   render_iso.py      isometric block drawing of the counter chip and its pins
   render_transistors_iso.py  isometric transistor + wiring render with labelled pins
