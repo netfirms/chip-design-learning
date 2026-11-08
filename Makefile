@@ -8,12 +8,13 @@
 #   make doctor                   # check which tools are installed
 #   make slides                   # learning decks as HTML (slides/*.html), needs Node.js
 #   make slides-pdf               # learning decks as PDF (slides/pdf/), needs Node.js + Chrome
+#   make ppa                      # area/timing/power dashboard for every design (ppa/index.html)
 
 DESIGN  ?= counter
 DESIGNS := $(notdir $(wildcard designs/*))
 TARGETS := all sim waves lint verilator synth show synth-sky130 pnr pnr-gui plot clean
 
-.PHONY: $(TARGETS) check check-sky130 doctor slides slides-pdf
+.PHONY: $(TARGETS) check check-sky130 doctor slides slides-pdf ppa
 
 $(TARGETS):
 	$(MAKE) -C designs/$(DESIGN) $@
@@ -23,6 +24,11 @@ check:
 
 check-sky130:
 	@for d in $(DESIGNS); do $(MAKE) -C designs/$$d synth-sky130 || exit 1; done
+
+# PPA dashboard from whatever has been built: sky130 synthesis always runs,
+# timing and power appear for designs where `make pnr` has run.
+ppa: check-sky130
+	python3 python/ppa_dashboard.py --out ppa
 
 doctor:
 	@for t in iverilog vvp verilator yosys gtkwave dot python3 docker openroad klayout; do \

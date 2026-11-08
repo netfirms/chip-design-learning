@@ -104,7 +104,18 @@ make doctor
 # 3. Run the first example
 make sim
 make pnr            # needs Docker; pulls the OpenROAD image once
+
+# 4. Compare every design: area, timing and power charts in ppa/index.html
+make ppa
 ```
+
+### PPA dashboard
+
+CI places and routes every design and publishes a dashboard of area, cell mix,
+setup slack, estimated fmax and power for all of them
+(`python/ppa_dashboard.py`, workflow `pnr`). On `main` it goes to the
+repository's GitHub Pages site; on a pull request it is the `ppa-dashboard`
+artifact of the run, and the job summary shows the same numbers as a table.
 
 ## Repository layout
 
@@ -126,6 +137,7 @@ mk/design.mk         shared make rules for every design
 python/
   dsp_coeffs.py      designs and quantises the FIR/IIR coefficients
   plot_tb.py         plots testbench output (make plot)
+  ppa_dashboard.py   area/timing/power dashboard for every design (make ppa)
   render_3d.py       3D render of a routed GDS
   render_iso.py      isometric block drawing of the counter chip and its pins
   render_transistors_iso.py  isometric transistor + wiring render with labelled pins
