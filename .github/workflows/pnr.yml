@@ -1,14 +1,27 @@
-# Full RTL-to-GDS with OpenROAD-flow-scripts for every design.
-# Runs when a design changes, or by hand from the Actions tab.
+# Full RTL-to-GDS with OpenROAD-flow-scripts for every design, then a PPA
+# (power, performance, area) dashboard built from the results.
+#
+# Runs when a design changes, on every push to main, or by hand from the
+# Actions tab. The dashboard is always uploaded as the `ppa-dashboard`
+# artifact; on main it is also published to GitHub Pages (enable it once in
+# Settings -> Pages -> Source: GitHub Actions).
 name: pnr
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
   pull_request:
     paths:
       - "designs/**"
-      - "scripts/orfs.sh"
+      - "scripts/**"
       - "mk/**"
+      - "python/ppa_dashboard.py"
+      - ".github/workflows/pnr.yml"
+
+concurrency:
+  group: pnr-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   pnr:
@@ -24,6 +37,7 @@ jobs:
       - name: Run OpenROAD-flow-scripts
         run: make -C designs/${{ matrix.design }} pnr
 
+      # logs/ also holds the per-step metrics JSON the dashboard reads
       - name: Upload layout and reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -33,3 +47,65 @@ jobs:
             designs/${{ matrix.design }}/build/orfs/reports/
             designs/${{ matrix.design }}/build/orfs/logs/
             designs/${{ matrix.design }}/build/orfs/results/**/6_final.gds
+
+  dashboard:
+    name: PPA dashboard
+    needs: pnr
+    # Still draw the designs that did finish if one of them failed
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Yosys
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends yosys
+
+      - name: Synthesis onto sky130 cells (cell area and mix)
+        run: make check-sky130
+
+      - name: Fetch place & route results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: pnr-*
+          path: pnr-artifacts
+
+      - name: Put results where the flow writes them
+        run: |
+          shopt -s nullglob
+          for dir in pnr-artifacts/pnr-*; do
+            design=${dir##*/pnr-}
+            mkdir -p designs/$design/build/orfs
+            cp -r "$dir"/. designs/$design/build/orfs/
+          done
+
+      - name: Build dashboard
+        run: python3 python/ppa_dashboard.py --out ppa --summary "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload dashboard
+        uses: actions/upload-artifact@v4
+        with:
+          name: ppa-dashboard
+          path: ppa/
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ppa/
+
+  pages:
+    name: publish to GitHub Pages
+    needs: dashboard
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.dashboard.result == 'success'
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

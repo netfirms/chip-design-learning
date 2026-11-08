@@ -25,12 +25,43 @@ jobs:
       - name: Synthesis onto sky130 cells (every design)
         run: make check-sky130
 
+      - name: Bit-exact software model vs the FFT RTL (codesign)
+        run: |
+          sudo apt-get install -y --no-install-recommends python3-numpy
+          make -C codesign check
+
       - name: Upload build outputs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-outputs
           path: designs/*/build/
+
+  cocotb:
+    name: cocotb testbenches (Python)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends iverilog
+          pip install -r python/requirements-verif.txt
+
+      - name: cocotb tests (every design)
+        run: make check-cocotb
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cocotb-results
+          path: designs/*/build/cocotb/results.xml
 
   slides:
     name: build learning decks (PDF)

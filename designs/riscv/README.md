@@ -105,4 +105,4 @@ two 32-way read multiplexers) is about half the area:
 | --- | --- |
 | ![](../../docs/images/riscv_3d_closeup.webp) | ![](../../docs/images/riscv_3d_transistors.webp) |
 
-The slide deck for this module: [slides/09-riscv.md](../../slides/09-riscv.md).
+The slide deck for this module: [slides/10-riscv.md](../../slides/10-riscv.md).
