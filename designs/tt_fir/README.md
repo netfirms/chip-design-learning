@@ -1,4 +1,4 @@
-# tt_fir: the FIR filter as a Tiny Tapeout chip (Module 9, capstone)
+# tt_fir: the FIR filter as a Tiny Tapeout chip (Module 10, capstone)
 
 ![The Tiny Tapeout FIR in its tile: transistors, wiring and labelled I/O pins in an isometric view](../../docs/images/tt_fir_iso_transistors.webp)
 
@@ -82,7 +82,7 @@ It *routes* in one tile, but at 85% it is far above the 60% placement
 density in Tiny Tapeout's default `src/config.json`, and their flow
 (LibreLane) puts pins and power stripes differently from ours. So
 `info.yaml` asks for **1x2 tiles**, which leaves plenty of headroom. Fitting
-it in 1x1 is the capstone's stretch exercise (see the Module 9 deck).
+it in 1x1 is the capstone's stretch exercise (see the Module 10 deck).
 
 To check 1x1 yourself, change `DIE_AREA` and `CORE_AREA` in
 `orfs/config.mk` to the values in its comment and run `make pnr` again.

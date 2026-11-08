@@ -2,7 +2,7 @@
 marp: true
 theme: course
 paginate: true
-footer: 'Hardware is the new Software · Module 9: Capstone, the FIR on Tiny Tapeout'
+footer: 'Hardware is the new Software · Module 10: Capstone, the FIR on Tiny Tapeout'
 ---
 
 <!-- _class: lead -->
@@ -11,7 +11,7 @@ footer: 'Hardware is the new Software · Module 9: Capstone, the FIR on Tiny Tap
 
 ![bg brightness:0.45](../docs/images/tt_fir_3d.webp)
 
-# Module 9
+# Module 10
 ## Capstone: your FIR on a real chip
 
 **Hardware is the new Software**

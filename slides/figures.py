@@ -852,7 +852,7 @@ def fig_nco():
 
 
 # ---------------------------------------------------------------------------
-# Module 9: Tiny Tapeout capstone (designs/tt_fir)
+# Module 10: Tiny Tapeout capstone (designs/tt_fir)
 # ---------------------------------------------------------------------------
 def fig_tt_pinout():
     fig, ax = canvas(13, 6.2)

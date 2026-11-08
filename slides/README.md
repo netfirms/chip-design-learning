@@ -15,7 +15,7 @@ exercises and key takeaways.
 | 6  | [The FFT](06-fft.md) | `fft` | 16 |
 | 7  | [Timing, area and power](07-ppa.md) | all | 16 |
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 16 |
-| 9  | [Capstone: the FIR on Tiny Tapeout](09-tinytapeout.md) | `tt_fir` | 17 |
+| 10 | [Capstone: the FIR on Tiny Tapeout](10-tinytapeout.md) | `tt_fir` | 17 |
 
 The decks are [Marp](https://marp.app/) Markdown: readable as plain Markdown
 on GitHub, and rendered as slides by Marp.
@@ -40,7 +40,7 @@ on GitHub, and rendered as slides by Marp.
 
 ```
 slides/
-  01-flow.md ... 09-tinytapeout.md   the decks
+  01-flow.md ... 10-tinytapeout.md  the decks
   theme/course.css               the Marp theme (title, exercise and small slide classes)
   images/                        diagrams and plots made by figures.py
   figures.py                     regenerates slides/images/ (numpy + matplotlib)

@@ -38,7 +38,7 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 6  | The FFT                         | `fft`             | Advanced | Butterflies, twiddles, scaling            |
 | 7  | Timing, area and power          | all               | Advanced | Reading reports, making trade-offs        |
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
-| 9  | Capstone: FIR on Tiny Tapeout   | `tt_fir`          | Project  | Fixed pins, fixed tile, async inputs      |
+| 10 | Capstone: FIR on Tiny Tapeout   | `tt_fir`          | Project  | Fixed pins, fixed tile, async inputs      |
 
 Tick the boxes as you go. Each module also has a slide deck with more
 detail (theory, diagrams, worked examples, results): see [slides/](../slides/).
@@ -252,16 +252,16 @@ Then learn what a real tapeout adds: DRC/LVS signoff (Magic, KLayout,
 Netgen), I/O pads and the harness around your design.
 [Tiny Tapeout](https://tinytapeout.com/) is the most accessible way to get a
 small design fabricated, and it uses the same open-source tools.
-Module 9 does exactly that with the FIR filter.
+Module 10 does exactly that with the FIR filter.
 
-## Module 9: Capstone, the FIR on Tiny Tapeout (`designs/tt_fir`)
+## Module 10: Capstone, the FIR on Tiny Tapeout (`designs/tt_fir`)
 
 Goal: turn a course design into a real chip project. A shared shuttle gives
 you a fixed pinout and a tile of fixed size, and it talks to the outside
 world, so the design has to deal with all three.
 
 Read: [designs/tt_fir/README.md](../designs/tt_fir/README.md) and the
-[Module 9 deck](../slides/09-tinytapeout.md).
+[Module 10 deck](../slides/10-tinytapeout.md).
 
 ![The Tiny Tapeout FIR, routed in its tile](images/tt_fir_iso_transistors.webp)
 

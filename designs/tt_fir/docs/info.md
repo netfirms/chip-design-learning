@@ -13,7 +13,7 @@ about 2.9 million samples per second.
 
 The design comes from the open course
 [chip-design-learning](https://github.com/netfirms/chip-design-learning)
-(Module 9). The filter core, `fir.v`, is the same file as the course's
+(Module 10). The filter core, `fir.v`, is the same file as the course's
 16-bit FIR, built with its sample width set to 8.
 
 | Pin | Direction | Function |

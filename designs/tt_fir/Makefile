@@ -1,4 +1,4 @@
-# tt_fir: the FIR filter as a Tiny Tapeout project (Module 9, capstone).
+# tt_fir: the FIR filter as a Tiny Tapeout project (Module 10, capstone).
 # See mk/design.mk for the targets (make sim, lint, synth, synth-sky130, pnr, ...)
 # and README.md for the Tiny Tapeout targets below.
 TOP := tt_um_chipcourse_fir
