@@ -52,6 +52,13 @@ labelled at their real places on the die edge. Each design's page has more
 All five designs pass their testbenches and route with 0 DRC violations and
 positive timing slack.
 
+**Software or hardware?** [codesign/](codesign/) runs the same 8-point FFT
+as Python, NumPy and C and compares it with the `fft` chip on speed, energy
+and area: a CPU wins on throughput with big batches, the chip uses hundreds
+to tens of thousands of times less energy per FFT.
+
+![Energy per FFT, software vs hardware](docs/images/codesign_energy.png)
+
 Zoom in far enough and you reach the transistors: green diffusion, red
 polysilicon gates, blue local interconnect and grey contacts.
 
