@@ -49,6 +49,15 @@ python3 -m venv .venv && source .venv/bin/activate   # optional
 pip install -r python/requirements.txt
 ```
 
+### cocotb (Python testbenches)
+
+`make cocotb` and `make check-cocotb` need cocotb 2.0 and Icarus Verilog
+(see [verification.md](verification.md)):
+
+```sh
+pip install -r python/requirements-verif.txt
+```
+
 ### 3D layout renders (optional)
 
 `python/render_3d.py` turns a routed GDS into pictures like the ones in this

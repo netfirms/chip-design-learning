@@ -64,6 +64,7 @@ Each design is a small, self-contained project with the same commands:
 ```sh
 cd designs/fir
 make sim            # self-checking testbench, prints PASS or FAIL
+make cocotb         # the same design tested from Python (cocotb)
 make plot           # DSP designs: waveforms and the measured frequency response
 make lint           # Verilator lint
 make synth          # Yosys generic synthesis
@@ -73,6 +74,8 @@ make pnr            # OpenROAD: RTL to GDS (Docker)
 
 From the repo root, `make sim DESIGN=fir` does the same, and `make check`
 runs lint, simulation and synthesis for every design (this is what CI runs).
+`make check-cocotb` runs every Python testbench; see
+[docs/verification.md](docs/verification.md).
 
 The DSP testbenches check every output bit for bit against a reference model
 and measure the frequency response from the hardware itself:
@@ -84,6 +87,7 @@ and measure the frequency response from the hardware itself:
 | Stage                    | Tool                                                                 |
 | ------------------------ | -------------------------------------------------------------------- |
 | Simulation               | [Icarus Verilog](https://steveicarus.github.io/iverilog/), [Verilator](https://www.veripool.org/verilator/) |
+| Verification             | [cocotb](https://www.cocotb.org/) (Python testbenches)               |
 | Waveforms                | [GTKWave](https://gtkwave.sourceforge.net/) or [Surfer](https://surfer-project.org/) |
 | Filter design, plots, 3D renders | Python: numpy, matplotlib, gdstk, pyvista                    |
 | Synthesis                | [Yosys](https://yosyshq.net/yosys/)                                   |
@@ -97,6 +101,7 @@ and measure the frequency response from the hardware itself:
 # 1. Front-end tools (see docs/setup.md for macOS and OSS CAD Suite)
 sudo apt-get install iverilog verilator yosys gtkwave graphviz
 pip install -r python/requirements.txt
+pip install -r python/requirements-verif.txt   # cocotb, for make cocotb
 
 # 2. Check what you have
 make doctor
@@ -115,16 +120,20 @@ docs/
   flow-overview.md   what each RTL-to-GDS stage does and how to read reports
   setup.md           installing the tools (apt, OSS CAD Suite, Docker)
   tools.md           map of open-source chip design tools and where each fits
+  verification.md    side module: Python testbenches with cocotb
 slides/              one Marp slide deck per module (make slides / slides-pdf)
   images/            renders, plots and diagrams used in the docs
 designs/<name>/
   rtl/               synthesisable Verilog
-  tb/                self-checking testbench
+  tb/                self-checking testbench (Verilog)
+  cocotb/            the same checks and more, in Python (make cocotb)
   orfs/              OpenROAD-flow-scripts config + timing constraints (SDC)
   Makefile           sets TOP/RTL/TB and includes mk/design.mk
 mk/design.mk         shared make rules for every design
+mk/cocotb.mk         runs a design's cocotb testbench (called by make cocotb)
 python/
   dsp_coeffs.py      designs and quantises the FIR/IIR coefficients
+  cocotb_util.py     clock/reset and fixed-point helpers for the cocotb tests
   plot_tb.py         plots testbench output (make plot)
   render_3d.py       3D render of a routed GDS
   render_iso.py      isometric block drawing of the counter chip and its pins
@@ -140,6 +149,7 @@ scripts/
 
 Copy any example to `designs/<name>`, rename the module and files, and update
 `TOP`/`RTL`/`TB` in its Makefile and `DESIGN_NAME`/`VERILOG_FILES` in
-`orfs/config.mk`. `make check` picks it up automatically, and
+`orfs/config.mk`. Rename `cocotb/test_<old>.py` to `cocotb/test_<name>.py`
+(or delete the folder). `make check` picks it up automatically, and
 `python3 python/render_3d.py <your 6_final.gds> -o mychip.webp` renders it.
 Module 8 of the course has project ideas.

@@ -12,6 +12,7 @@
 #   make waves         Open the waveform in GTKWave
 #   make lint          Lint the RTL with Verilator
 #   make verilator     Build and run the testbench with Verilator (--binary)
+#   make cocotb        Run the Python (cocotb) testbench in cocotb/ with Icarus
 #   make synth         Generic synthesis with Yosys (no PDK needed)
 #   make show          Draw the synthesised circuit as an SVG (needs graphviz)
 #   make synth-sky130  Synthesis onto SkyWater sky130 standard cells
@@ -35,7 +36,7 @@ ORFS_IMAGE ?= openroad/orfs:latest
 IVERILOG_FLAGS  ?=
 VERILATOR_FLAGS ?=
 
-.PHONY: all sim waves lint verilator synth show synth-sky130 pnr pnr-gui plot clean
+.PHONY: all sim waves lint verilator cocotb synth show synth-sky130 pnr pnr-gui plot clean
 
 all: lint sim synth
 
@@ -61,6 +62,11 @@ verilator: | $(BUILD)
 	verilator --binary -Wno-fatal --timing $(VERILATOR_FLAGS) -Mdir $(BUILD)/obj_dir \
 		--top-module $(TOP)_tb $(TB) $(RTL)
 	$(BUILD)/obj_dir/V$(TOP)_tb
+
+# ---- cocotb: the same design, verified from Python -------------------------
+# Exits non-zero if any test fails, so CI catches it.
+cocotb: | $(BUILD)
+	$(MAKE) -f $(REPO_ROOT)/mk/cocotb.mk TOP=$(TOP) RTL="$(RTL)" DESIGN=$(DESIGN)
 
 # ---- Synthesis -------------------------------------------------------------
 synth: | $(BUILD)
