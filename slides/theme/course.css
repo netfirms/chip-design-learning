@@ -66,3 +66,12 @@ section.small { font-size: 21px; }
 section .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; align-items: start; }
 
 section footer, section header { color: var(--muted); }
+
+/* End-of-module quiz: <!-- _class: quiz -->. Answer keys live on the quiz-answers branch. */
+section.quiz { background: #f3f8fb; font-size: 22px; }
+section.quiz h2::before { content: '?  '; }
+section.quiz ol { margin-top: 0.2em; }
+section.quiz li { margin-bottom: 0.45em; }
+section.quiz li > p { margin: 0; }
+section.quiz .opts { display: block; margin-top: 0.15em; color: var(--muted); }
+section.quiz .sa { color: var(--muted); }
