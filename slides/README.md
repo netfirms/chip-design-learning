@@ -13,6 +13,7 @@ exercises and key takeaways.
 | 4  | [FIR filters](04-fir.md) | `fir` | 18 |
 | 5  | [IIR filters](05-iir.md) | `iir` | 15 |
 | 6  | [The FFT](06-fft.md) | `fft` | 16 |
+| 6b | [The analog bridge: ADC and DAC](06b-analog-bridge.md) | `analog/` | 22 |
 | 7  | [Timing, area and power](07-ppa.md) | all | 16 |
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 16 |
 

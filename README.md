@@ -52,6 +52,13 @@ labelled at their real places on the die edge. Each design's page has more
 All five designs pass their testbenches and route with 0 DRC violations and
 positive timing slack.
 
+**Bonus: real signals in and out.** The [analog bridge](analog/) adds an
+8-bit ADC and DAC drawn in Xschem and simulated in ngspice, and runs a real
+analog signal through the FIR's Verilog: a 1 kHz tone goes through, a 15 kHz
+interferer is cut by 58 dB.
+
+![A real signal through the chip: analog in, ADC, FIR, DAC, analog out](docs/images/analog_chain_3d.png)
+
 Zoom in far enough and you reach the transistors: green diffusion, red
 polysilicon gates, blue local interconnect and grey contacts.
 

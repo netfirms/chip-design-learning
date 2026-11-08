@@ -1,0 +1,29 @@
+name: analog
+
+on:
+  push:
+    paths: ['analog/**', 'designs/fir/**', '.github/workflows/analog.yml']
+  pull_request:
+    paths: ['analog/**', 'designs/fir/**', '.github/workflows/analog.yml']
+
+jobs:
+  spice:
+    name: ngspice ADC, DAC and signal chain
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ngspice xschem iverilog python3-numpy
+
+      - name: Netlist the schematics and run every analog test
+        run: make -C analog sim
+
+      - name: Upload netlists and simulation data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analog-build
+          path: analog/build/

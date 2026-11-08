@@ -197,6 +197,27 @@ The 9,100 cells of the FFT, down at the transistor level:
       twiddle ROM (the "in-place, iterative" architecture used in real
       chips).
 
+## Bonus: The analog bridge, ADC and DAC (`analog/`)
+
+Goal: connect your DSP hardware to real signals. Build an 8-bit R-2R DAC and
+a flash ADC as **Xschem** schematics, simulate them in **ngspice**, then run
+a real analog signal through the Module 4 FIR: analog in, ADC, `fir.v`,
+DAC, analog out.
+
+Read: [analog/README.md](../analog/README.md). Deck:
+[The analog bridge](../slides/06b-analog-bridge.md).
+
+![A real signal through the chip in 3D](images/analog_chain_3d.png)
+
+- [ ] `make -C analog sim`: the DAC, ADC and signal-chain tests all PASS.
+- [ ] Open `analog/sch/adc_flash3.sch` in Xschem (`make -C analog gui`) and
+      trace one comparator from its ladder tap to the encoder.
+- [ ] Look at the DNL plot with 1 % resistor mismatch and explain why the
+      127 to 128 step is the worst.
+- [ ] **Exercise:** move the interferer above fs/2 and watch it alias.
+- [ ] **Stretch:** a SAR ADC from one comparator, the R-2R DAC and Verilog
+      control logic.
+
 ## Module 7: Timing, area and power
 
 Goal: read implementation reports like a designer and make trade-offs.
