@@ -82,3 +82,12 @@ jobs:
         with:
           name: slides-pdf
           path: slides/pdf/
+
+      - name: Build the deck index site
+        run: make slides-site
+
+      - name: Upload deck site
+        uses: actions/upload-artifact@v4
+        with:
+          name: slides-site
+          path: build/slides-site/

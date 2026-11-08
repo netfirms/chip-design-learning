@@ -46,16 +46,18 @@ on GitHub, and rendered as slides by Marp.
   ```sh
   make slides       # slides/*.html, next to the decks (open in a browser, press F for full screen)
   make slides-pdf   # slides/pdf/*.pdf
+  make slides-site  # build/slides-site/: index page with a card per deck (open index.html)
   ```
 
-- **CI:** every push builds the PDFs; download them from the `slides-pdf`
-  artifact of the workflow run.
+- **CI:** every push builds the PDFs and the deck site; download them from the
+  `slides-pdf` and `slides-site` artifacts of the workflow run.
 
 ## Layout
 
 ```
 slides/
   01-flow.md ... 11-tinytapeout.md  the decks
+  site/index.html                the deck index page used by `make slides-site`
   theme/course.css               the Marp theme (title, exercise, quiz and small slide classes)
   images/                        diagrams and plots made by figures.py
   figures.py                     regenerates slides/images/ (numpy + matplotlib)
