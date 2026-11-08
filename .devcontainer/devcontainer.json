@@ -20,7 +20,7 @@
     // `make pnr` runs OpenROAD-flow-scripts in Docker (scripts/orfs.sh).
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     // A Linux desktop in a browser tab (port 6080) for GTKWave, KLayout and
-    // the OpenROAD GUI. Password: vscode.
+    // the OpenROAD GUI. Login details: docs/codespaces.md.
     "ghcr.io/devcontainers/features/desktop-lite:1": {},
     // Node.js for `make slides` (Marp).
     "ghcr.io/devcontainers/features/node:1": { "version": "20" }
