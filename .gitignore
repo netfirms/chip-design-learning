@@ -8,6 +8,7 @@ obj_dir/
 # Rendered learning decks and Python caches
 slides/*.html
 slides/pdf/
+ppa/
 __pycache__/
 
 # Editor / OS

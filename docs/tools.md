@@ -68,7 +68,7 @@ level simulation and the board your chip goes on.
 | [SkyWater sky130 PDK](https://github.com/google/skywater-pdk) | Open 130 nm process: cells, rules, models | every `synth-sky130` and `pnr` |
 | [KLayout](https://www.klayout.de/) | Layout viewer/editor, GDS export, DRC | opening `6_final.gds` |
 | [Surfer](https://surfer-project.org/) | Modern waveform viewer (also in the browser) | alternative to GTKWave |
-| [cocotb](https://www.cocotb.org/), [SymbiYosys](https://symbiyosys.readthedocs.io/) | Python testbenches; formal verification | Module 8 and further study |
+| [cocotb](https://www.cocotb.org/), [SymbiYosys](https://symbiyosys.readthedocs.io/) | Python testbenches; formal verification | Side module (`docs/verification.md`), Module 8 and further study |
 | [Magic](http://opencircuitdesign.com/magic/), [Netgen](http://opencircuitdesign.com/netgen/) | DRC and LVS signoff | Module 8: toward tapeout |
 | [Tiny Tapeout](https://tinytapeout.com/) | Get a small design fabricated on a shared chip | Module 8 |
 

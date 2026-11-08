@@ -1,0 +1,129 @@
+{
+  "machine": {
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "python": "3.13.18",
+    "numpy": "2.5.3",
+    "cpu_watts": 10.0
+  },
+  "software": [
+    {
+      "name": "Python, DFT formula (64 multiplies)",
+      "kind": "sw",
+      "ns": 16311.47349999651
+    },
+    {
+      "name": "Python, radix-2 FFT",
+      "kind": "sw",
+      "ns": 3393.1538000047112
+    },
+    {
+      "name": "Python, bit-exact model",
+      "kind": "sw",
+      "ns": 24321.07360000373
+    },
+    {
+      "name": "NumPy, one frame per call",
+      "kind": "sw",
+      "ns": 2930.1908500002583
+    },
+    {
+      "name": "NumPy, 65,536 frames per call",
+      "kind": "sw",
+      "ns": 25.07521362302839
+    },
+    {
+      "name": "NumPy, bit-exact model, 65,536 frames",
+      "kind": "sw",
+      "ns": 490.0763244629347
+    },
+    {
+      "name": "C -O2, bit-exact model",
+      "kind": "sw",
+      "ns": 40.21
+    }
+  ],
+  "batch": [
+    {
+      "batch": 1,
+      "numpy_ns": 2307.6368499999944,
+      "fixed_np_ns": 175987.90599998893
+    },
+    {
+      "batch": 4,
+      "numpy_ns": 869.5888000005425,
+      "fixed_np_ns": 45083.89899999088
+    },
+    {
+      "batch": 16,
+      "numpy_ns": 225.6850500003793,
+      "fixed_np_ns": 14028.295499997512
+    },
+    {
+      "batch": 64,
+      "numpy_ns": 85.25565905385199,
+      "fixed_np_ns": 3065.991935489964
+    },
+    {
+      "batch": 256,
+      "numpy_ns": 32.19986979047098,
+      "fixed_np_ns": 1021.8632812618114
+    },
+    {
+      "batch": 1024,
+      "numpy_ns": 21.78068462138346,
+      "fixed_np_ns": 461.1448567633699
+    },
+    {
+      "batch": 4096,
+      "numpy_ns": 19.742370606368187,
+      "fixed_np_ns": 359.22371419139233
+    },
+    {
+      "batch": 16384,
+      "numpy_ns": 22.699666341052804,
+      "fixed_np_ns": 322.94295247356496
+    },
+    {
+      "batch": 65536,
+      "numpy_ns": 31.00568644193169,
+      "fixed_np_ns": 516.7013702392595
+    }
+  ],
+  "hardware": [
+    {
+      "name": "Hardware, 50 MHz (17 cycles)",
+      "kind": "hw",
+      "ns": 340.0,
+      "J": 9.180000000000001e-10
+    },
+    {
+      "name": "Hardware, 70 MHz (17 cycles)",
+      "kind": "hw",
+      "ns": 241.91,
+      "J": 9.180000000000001e-10
+    },
+    {
+      "name": "Hardware, butterflies only (1 cycle)",
+      "kind": "hw",
+      "ns": 20.0,
+      "J": 5.400000000000001e-11
+    }
+  ],
+  "hw_params": {
+    "clock_mhz": 50.0,
+    "worst_slack_ns": 5.77,
+    "power_mw": 2.7,
+    "cell_area_um2": 79800,
+    "die_um": 449,
+    "cells": 9073,
+    "load_cycles": 8,
+    "compute_cycles": 1,
+    "unload_cycles": 8,
+    "synth_area_um2": 62575,
+    "area_registers_um2": 14689.088,
+    "area_bfly_mult_um2": 20645,
+    "area_bfly_other_um2": 17962,
+    "fmax_mhz": 70.27406886858749,
+    "cycles_per_fft": 17
+  }
+}

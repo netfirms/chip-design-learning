@@ -1,0 +1,59 @@
+// GitHub Codespaces / VS Code Dev Container for the course.
+// Open the repo in a codespace and every `make` target works in the browser:
+// see docs/codespaces.md.
+{
+  "name": "chip-design-learning",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  // OpenROAD needs room: the ORFS image is several GB and the FFT routes
+  // best with 16 GB of RAM. Codespaces picks a machine at least this big.
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "16gb",
+    "storage": "32gb"
+  },
+
+  "features": {
+    // `make pnr` runs OpenROAD-flow-scripts in Docker (scripts/orfs.sh).
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    // A Linux desktop in a browser tab (port 6080) for GTKWave, KLayout and
+    // the OpenROAD GUI. Login details: docs/codespaces.md.
+    "ghcr.io/devcontainers/features/desktop-lite:1": {},
+    // Node.js for `make slides` (Marp).
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
+  },
+
+  "forwardPorts": [6080],
+  "portsAttributes": {
+    "6080": { "label": "Desktop (GTKWave, KLayout, OpenROAD GUI)", "onAutoForward": "silent" }
+  },
+
+  // Fetch the sky130 Liberty file and start pulling the OpenROAD image in
+  // the background, so the first `make pnr` does not wait for it.
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postStartCommand": "nohup bash -c 'for i in 1 2 3; do docker pull -q openroad/orfs:latest && break; sleep 20; done' > /tmp/orfs-pull.log 2>&1 &",
+
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["docs/codespaces.md", "designs/counter/rtl/counter.v"]
+    },
+    "vscode": {
+      "extensions": [
+        "mshr-h.veriloghdl",
+        "wavetrace.wavetrace",
+        "ms-python.python",
+        "marp-team.marp-vscode"
+      ],
+      "settings": {
+        "verilog.linting.linter": "verilator",
+        "python.defaultInterpreterPath": "/opt/venv/bin/python",
+        "terminal.integrated.cwd": "${workspaceFolder}"
+      }
+    }
+  },
+
+  "remoteUser": "vscode"
+}

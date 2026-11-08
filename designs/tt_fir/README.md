@@ -40,6 +40,7 @@ src/project.v      the tt_um_ top module: pins, STROBE synchroniser, TOGGLE
 src/fir.v          link to designs/fir/rtl/fir.v (copied by make tt-export)
 tb/tt_fir_tb.v     the course testbench (make sim): drives only the pins
 test/              Tiny Tapeout's cocotb test (make tt-test), as their CI runs it
+cocotb/            runs that same test from the course's make cocotb / CI
 docs/info.md       the datasheet page for the shuttle
 orfs/              make pnr on a die the size of the tiles
 ```

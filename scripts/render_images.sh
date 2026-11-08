@@ -23,7 +23,7 @@ python3 $R "$(gds fir fir)" -o $I/banner.webp --size 2400 800 \
     --subtitle 'A fast-track course in digital chip design for EE students\nVerilog to silicon with Yosys, OpenROAD and SkyWater sky130' \
     --caption "16-tap FIR filter, routed in sky130 by this repo. Rendered from the GDS with python/render_3d.py"
 
-for spec in counter:counter pwm:pwm fir:fir iir:iir fft:fft8; do
+for spec in counter:counter pwm:pwm fir:fir iir:iir fft:fft8 riscv:minirv; do
     d=${spec%%:*}; t=${spec##*:}
     g=$(gds "$d" "$t")
     [[ -f "$g" ]] || { echo "skip $d (no GDS, run make pnr)"; continue; }

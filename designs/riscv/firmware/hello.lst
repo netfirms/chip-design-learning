@@ -1,0 +1,372 @@
+
+hello.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	auipc	sp,0x10
+   4:	mv	sp,sp
+   8:	li	t0,1820
+   c:	li	t1,1924
+  10:	bgeu	t0,t1,20 <_start+0x20>
+  14:	sw	zero,0(t0)
+  18:	addi	t0,t0,4
+  1c:	j	10 <_start+0x10>
+  20:	jal	1d8 <main>
+  24:	lui	t0,0x10000
+  28:	addi	t0,t0,4 # 10000004 <_stack_top+0xfff0004>
+  2c:	sw	a0,0(t0)
+  30:	j	30 <_start+0x30>
+
+00000034 <print>:
+  34:	lui	a4,0x10000
+  38:	lbu	a5,0(a0)
+  3c:	bnez	a5,44 <print+0x10>
+  40:	ret
+  44:	addi	a0,a0,1
+  48:	sw	a5,0(a4) # 10000000 <_stack_top+0xfff0000>
+  4c:	j	38 <print+0x4>
+
+00000050 <print_dec>:
+  50:	addi	sp,sp,-48 # ffd0 <_bss_end+0xf84c>
+  54:	sw	s2,32(sp)
+  58:	addi	s2,sp,4
+  5c:	sw	s0,40(sp)
+  60:	sw	s1,36(sp)
+  64:	sw	s4,24(sp)
+  68:	sw	s5,20(sp)
+  6c:	sw	ra,44(sp)
+  70:	sw	s3,28(sp)
+  74:	mv	s0,a0
+  78:	li	s1,0
+  7c:	mv	s4,s2
+  80:	li	s5,9
+  84:	li	a1,10
+  88:	mv	a0,s0
+  8c:	jal	500 <__umodsi3>
+  90:	addi	a0,a0,48
+  94:	sb	a0,0(s2)
+  98:	li	a1,10
+  9c:	mv	a0,s0
+  a0:	mv	s3,s0
+  a4:	jal	4b8 <__hidden___udivsi3>
+  a8:	addi	s1,s1,1
+  ac:	mv	s0,a0
+  b0:	addi	s2,s2,1
+  b4:	bltu	s5,s3,84 <print_dec+0x34>
+  b8:	lui	a5,0x10000
+  bc:	addi	s1,s1,-1
+  c0:	add	a4,s4,s1
+  c4:	lbu	a4,0(a4)
+  c8:	sw	a4,0(a5) # 10000000 <_stack_top+0xfff0000>
+  cc:	bnez	s1,bc <print_dec+0x6c>
+  d0:	lw	ra,44(sp)
+  d4:	lw	s0,40(sp)
+  d8:	lw	s1,36(sp)
+  dc:	lw	s2,32(sp)
+  e0:	lw	s3,28(sp)
+  e4:	lw	s4,24(sp)
+  e8:	lw	s5,20(sp)
+  ec:	addi	sp,sp,48
+  f0:	ret
+
+000000f4 <print_hex>:
+  f4:	addi	sp,sp,-16
+  f8:	sw	s0,8(sp)
+  fc:	mv	s0,a0
+ 100:	li	a0,1380
+ 104:	sw	ra,12(sp)
+ 108:	jal	34 <print>
+ 10c:	li	a4,28
+ 110:	li	a3,1384
+ 114:	lui	a1,0x10000
+ 118:	li	a2,-4
+ 11c:	srl	a5,s0,a4
+ 120:	andi	a5,a5,15
+ 124:	add	a5,a3,a5
+ 128:	lbu	a5,0(a5)
+ 12c:	addi	a4,a4,-4
+ 130:	sw	a5,0(a1) # 10000000 <_stack_top+0xfff0000>
+ 134:	bne	a4,a2,11c <print_hex+0x28>
+ 138:	lw	ra,12(sp)
+ 13c:	lw	s0,8(sp)
+ 140:	addi	sp,sp,16
+ 144:	ret
+
+00000148 <check>:
+ 148:	addi	sp,sp,-16
+ 14c:	sw	s0,8(sp)
+ 150:	sw	s1,4(sp)
+ 154:	sw	s2,0(sp)
+ 158:	sw	ra,12(sp)
+ 15c:	mv	s2,a0
+ 160:	mv	s1,a1
+ 164:	mv	s0,a2
+ 168:	bne	a1,a2,1d0 <check+0x88>
+ 16c:	li	a0,1404
+ 170:	jal	34 <print>
+ 174:	mv	a0,s2
+ 178:	jal	34 <print>
+ 17c:	beq	s1,s0,1ac <check+0x64>
+ 180:	li	a0,1428
+ 184:	jal	34 <print>
+ 188:	mv	a0,s1
+ 18c:	jal	f4 <print_hex>
+ 190:	li	a0,1436
+ 194:	jal	34 <print>
+ 198:	mv	a0,s0
+ 19c:	jal	f4 <print_hex>
+ 1a0:	lw	a5,1920(zero) # 780 <errors>
+ 1a4:	addi	a5,a5,1
+ 1a8:	sw	a5,1920(zero) # 780 <errors>
+ 1ac:	lw	ra,12(sp)
+ 1b0:	lw	s0,8(sp)
+ 1b4:	lui	a5,0x10000
+ 1b8:	li	a4,10
+ 1bc:	sw	a4,0(a5) # 10000000 <_stack_top+0xfff0000>
+ 1c0:	lw	s1,4(sp)
+ 1c4:	lw	s2,0(sp)
+ 1c8:	addi	sp,sp,16
+ 1cc:	ret
+ 1d0:	li	a0,1416
+ 1d4:	j	170 <check+0x28>
+
+000001d8 <main>:
+ 1d8:	addi	sp,sp,-48
+ 1dc:	lui	a5,0x10000
+ 1e0:	sw	s0,40(sp)
+ 1e4:	li	a0,1476
+ 1e8:	lw	s0,8(a5) # 10000008 <_stack_top+0xfff0008>
+ 1ec:	li	a5,7
+ 1f0:	sw	ra,44(sp)
+ 1f4:	sw	a5,12(sp)
+ 1f8:	sw	s1,36(sp)
+ 1fc:	sw	s2,32(sp)
+ 200:	sw	s3,28(sp)
+ 204:	sw	s4,24(sp)
+ 208:	sw	s5,20(sp)
+ 20c:	jal	34 <print>
+ 210:	li	a0,1532
+ 214:	jal	34 <print>
+ 218:	li	a0,1564
+ 21c:	jal	34 <print>
+ 220:	li	s1,0
+ 224:	lui	s3,0x10000
+ 228:	li	s5,32
+ 22c:	li	s4,-1
+ 230:	li	s2,12
+ 234:	sw	s5,0(s3) # 10000000 <_stack_top+0xfff0000>
+ 238:	mv	a5,s1
+ 23c:	li	a4,1
+ 240:	li	a0,0
+ 244:	mv	a3,a4
+ 248:	addi	a5,a5,-1
+ 24c:	add	a4,a4,a0
+ 250:	mv	a0,a3
+ 254:	bne	a5,s4,244 <main+0x6c>
+ 258:	addi	s1,s1,1
+ 25c:	jal	50 <print_dec>
+ 260:	bne	s1,s2,234 <main+0x5c>
+ 264:	li	a0,1576
+ 268:	jal	34 <print>
+ 26c:	li	s1,30
+ 270:	li	a5,1
+ 274:	li	a1,0
+ 278:	mv	a4,a5
+ 27c:	addi	s1,s1,-1
+ 280:	add	a5,a5,a1
+ 284:	mv	a1,a4
+ 288:	bnez	s1,278 <main+0xa0>
+ 28c:	lui	a2,0xcb
+ 290:	li	a0,1580
+ 294:	addi	a2,a2,552 # cb228 <_stack_top+0xbb228>
+ 298:	jal	148 <check>
+ 29c:	li	a0,1
+ 2a0:	li	s2,10
+ 2a4:	li	s3,1
+ 2a8:	mv	a1,s2
+ 2ac:	addi	s2,s2,-1
+ 2b0:	jal	48c <__mulsi3>
+ 2b4:	bne	s2,s3,2a8 <main+0xd0>
+ 2b8:	mv	a1,a0
+ 2bc:	lui	a2,0x376
+ 2c0:	addi	a2,a2,-256 # 375f00 <_stack_top+0x365f00>
+ 2c4:	li	a0,1600
+ 2c8:	jal	148 <check>
+ 2cc:	lw	a1,12(sp)
+ 2d0:	lui	a0,0xf4
+ 2d4:	addi	a0,a0,576 # f4240 <_stack_top+0xe4240>
+ 2d8:	jal	4b8 <__hidden___udivsi3>
+ 2dc:	mv	a1,a0
+ 2e0:	lui	a2,0x23
+ 2e4:	addi	a2,a2,-503 # 22e09 <_stack_top+0x12e09>
+ 2e8:	li	a0,1636
+ 2ec:	jal	148 <check>
+ 2f0:	li	a1,0
+ 2f4:	li	a5,2
+ 2f8:	li	a4,1820
+ 2fc:	li	a0,99
+ 300:	li	a6,1
+ 304:	li	a2,100
+ 308:	add	a3,a4,a5
+ 30c:	lbu	a3,0(a3)
+ 310:	bnez	a3,320 <main+0x148>
+ 314:	addi	a1,a1,1
+ 318:	slli	a3,a5,0x1
+ 31c:	bge	a0,a3,450 <main+0x278>
+ 320:	addi	a5,a5,1
+ 324:	bne	a5,a2,308 <main+0x130>
+ 328:	li	a2,25
+ 32c:	li	a0,1676
+ 330:	jal	148 <check>
+ 334:	li	a3,1780
+ 338:	addi	a3,a3,4
+ 33c:	li	a4,1780
+ 340:	li	a7,-1
+ 344:	li	a6,9
+ 348:	lw	a1,0(a3)
+ 34c:	mv	a5,s1
+ 350:	mv	a2,a3
+ 354:	lw	a0,-4(a2)
+ 358:	bge	a1,a0,36c <main+0x194>
+ 35c:	sw	a0,0(a2)
+ 360:	addi	a5,a5,-1
+ 364:	addi	a2,a2,-4
+ 368:	bne	a5,a7,354 <main+0x17c>
+ 36c:	addi	a5,a5,1
+ 370:	slli	a5,a5,0x2
+ 374:	add	a5,a4,a5
+ 378:	sw	a1,0(a5)
+ 37c:	addi	s1,s1,1
+ 380:	addi	a3,a3,4
+ 384:	bne	s1,a6,348 <main+0x170>
+ 388:	mv	a5,a4
+ 38c:	addi	a2,a4,36
+ 390:	li	a1,1
+ 394:	lw	a3,0(a5)
+ 398:	lw	a0,4(a5)
+ 39c:	addi	a5,a5,4
+ 3a0:	slt	a3,a0,a3
+ 3a4:	seqz	a3,a3
+ 3a8:	and	a1,a1,a3
+ 3ac:	bne	a2,a5,394 <main+0x1bc>
+ 3b0:	beqz	a1,3d0 <main+0x1f8>
+ 3b4:	lw	a3,0(a4)
+ 3b8:	li	a5,-300
+ 3bc:	li	a1,0
+ 3c0:	bne	a3,a5,3d0 <main+0x1f8>
+ 3c4:	lw	a1,36(a4)
+ 3c8:	addi	a1,a1,-1000
+ 3cc:	seqz	a1,a1
+ 3d0:	li	a2,1
+ 3d4:	li	a0,1696
+ 3d8:	jal	148 <check>
+ 3dc:	lui	a4,0xedb88
+ 3e0:	li	a1,-1
+ 3e4:	li	a5,1444
+ 3e8:	addi	a4,a4,800 # edb88320 <_stack_top+0xedb78320>
+ 3ec:	lbu	a3,0(a5)
+ 3f0:	bnez	a3,460 <main+0x288>
+ 3f4:	lui	a2,0xb708b
+ 3f8:	addi	a2,a2,1147 # b708b47b <_stack_top+0xb707b47b>
+ 3fc:	not	a1,a1
+ 400:	li	a0,1712
+ 404:	jal	148 <check>
+ 408:	li	a0,1752
+ 40c:	jal	34 <print>
+ 410:	lui	a5,0x10000
+ 414:	lw	a0,8(a5) # 10000008 <_stack_top+0xfff0008>
+ 418:	sub	a0,a0,s0
+ 41c:	jal	50 <print_dec>
+ 420:	li	a0,1764
+ 424:	jal	34 <print>
+ 428:	lw	ra,44(sp)
+ 42c:	lw	s0,40(sp)
+ 430:	lw	a0,1920(zero) # 780 <errors>
+ 434:	lw	s1,36(sp)
+ 438:	lw	s2,32(sp)
+ 43c:	lw	s3,28(sp)
+ 440:	lw	s4,24(sp)
+ 444:	lw	s5,20(sp)
+ 448:	addi	sp,sp,48
+ 44c:	ret
+ 450:	add	a7,a4,a3
+ 454:	sb	a6,0(a7)
+ 458:	add	a3,a3,a5
+ 45c:	j	31c <main+0x144>
+ 460:	xor	a1,a1,a3
+ 464:	addi	a5,a5,1
+ 468:	li	a3,8
+ 46c:	srli	a2,a1,0x1
+ 470:	andi	a1,a1,1
+ 474:	neg	a1,a1
+ 478:	and	a1,a1,a4
+ 47c:	addi	a3,a3,-1
+ 480:	xor	a1,a2,a1
+ 484:	bnez	a3,46c <main+0x294>
+ 488:	j	3ec <main+0x214>
+
+0000048c <__mulsi3>:
+ 48c:	mv	a2,a0
+ 490:	li	a0,0
+ 494:	andi	a3,a1,1
+ 498:	beqz	a3,4a0 <__mulsi3+0x14>
+ 49c:	add	a0,a0,a2
+ 4a0:	srli	a1,a1,0x1
+ 4a4:	slli	a2,a2,0x1
+ 4a8:	bnez	a1,494 <__mulsi3+0x8>
+ 4ac:	ret
+
+000004b0 <__divsi3>:
+ 4b0:	bltz	a0,510 <__umodsi3+0x10>
+ 4b4:	bltz	a1,520 <__umodsi3+0x20>
+
+000004b8 <__hidden___udivsi3>:
+ 4b8:	mv	a2,a1
+ 4bc:	mv	a1,a0
+ 4c0:	li	a0,-1
+ 4c4:	beqz	a2,4fc <__hidden___udivsi3+0x44>
+ 4c8:	li	a3,1
+ 4cc:	bgeu	a2,a1,4e0 <__hidden___udivsi3+0x28>
+ 4d0:	blez	a2,4e0 <__hidden___udivsi3+0x28>
+ 4d4:	slli	a2,a2,0x1
+ 4d8:	slli	a3,a3,0x1
+ 4dc:	bltu	a2,a1,4d0 <__hidden___udivsi3+0x18>
+ 4e0:	li	a0,0
+ 4e4:	bltu	a1,a2,4f0 <__hidden___udivsi3+0x38>
+ 4e8:	sub	a1,a1,a2
+ 4ec:	or	a0,a0,a3
+ 4f0:	srli	a3,a3,0x1
+ 4f4:	srli	a2,a2,0x1
+ 4f8:	bnez	a3,4e4 <__hidden___udivsi3+0x2c>
+ 4fc:	ret
+
+00000500 <__umodsi3>:
+ 500:	mv	t0,ra
+ 504:	jal	4b8 <__hidden___udivsi3>
+ 508:	mv	a0,a1
+ 50c:	jr	t0
+ 510:	neg	a0,a0
+ 514:	bgtz	a1,524 <__umodsi3+0x24>
+ 518:	neg	a1,a1
+ 51c:	j	4b8 <__hidden___udivsi3>
+ 520:	neg	a1,a1
+ 524:	mv	t0,ra
+ 528:	jal	4b8 <__hidden___udivsi3>
+ 52c:	neg	a0,a0
+ 530:	jr	t0
+
+00000534 <__modsi3>:
+ 534:	mv	t0,ra
+ 538:	bltz	a1,54c <__modsi3+0x18>
+ 53c:	bltz	a0,554 <__modsi3+0x20>
+ 540:	jal	4b8 <__hidden___udivsi3>
+ 544:	mv	a0,a1
+ 548:	jr	t0
+ 54c:	neg	a1,a1
+ 550:	bgez	a0,540 <__modsi3+0xc>
+ 554:	neg	a0,a0
+ 558:	jal	4b8 <__hidden___udivsi3>
+ 55c:	neg	a0,a1
+ 560:	jr	t0
