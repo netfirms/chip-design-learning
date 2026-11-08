@@ -28,3 +28,23 @@ jobs:
         with:
           name: build-outputs
           path: designs/*/build/
+
+  slides:
+    name: build learning decks (PDF)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # The runner image ships Google Chrome, which Marp uses to print PDFs
+      - name: Render every deck to PDF
+        run: make slides-pdf
+
+      - name: Upload decks
+        uses: actions/upload-artifact@v4
+        with:
+          name: slides-pdf
+          path: slides/pdf/

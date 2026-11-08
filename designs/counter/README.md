@@ -1,5 +1,7 @@
 # counter: the whole flow in one afternoon (Module 1, basic)
 
+![The counter chip: transistors, wiring and labelled I/O pins in an isometric view](../../docs/images/counter_iso_transistors.webp)
+
 ![counter in 3D](../../docs/images/counter_3d.webp)
 
 A parameterised up-counter with enable, asynchronous active-low reset and a

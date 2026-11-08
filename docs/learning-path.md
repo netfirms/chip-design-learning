@@ -39,7 +39,8 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 7  | Timing, area and power          | all               | Advanced | Reading reports, making trade-offs        |
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
 
-Tick the boxes as you go.
+Tick the boxes as you go. Each module also has a slide deck with more
+detail (theory, diagrams, worked examples, results): see [slides/](../slides/).
 
 ---
 
@@ -255,6 +256,9 @@ small design fabricated, and it uses the same open-source tools.
 
 ## Further reading
 
+- [Open-source chip design tools](tools.md): every tool by job (simulation,
+  synthesis, place and route, timing, verification, analog, PCB), with where
+  it fits in this course
 - *Digital Design and Computer Architecture*, Harris & Harris: Verilog and
   digital design refresher
 - [HDLBits](https://hdlbits.01xz.net/): Verilog practice problems

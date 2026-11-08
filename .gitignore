@@ -5,6 +5,11 @@ obj_dir/
 *.vcd
 *.fst
 
+# Rendered learning decks and Python caches
+slides/*.html
+slides/pdf/
+__pycache__/
+
 # Editor / OS
 .vscode/
 .idea/

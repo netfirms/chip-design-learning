@@ -1,5 +1,7 @@
 # pwm: pulse-width modulator (Module 2, basic)
 
+![The pwm chip: transistors, wiring and labelled I/O pins in an isometric view](../../docs/images/pwm_iso_transistors.webp)
+
 ![pwm in 3D](../../docs/images/pwm_3d.webp)
 
 Switches `pwm_out` high for `duty` out of every 2^WIDTH clock cycles. After a

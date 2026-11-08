@@ -1,5 +1,7 @@
 # iir: 2nd-order IIR low-pass biquad (Module 5, advanced)
 
+![The IIR filter chip: transistors, wiring and labelled I/O pins in an isometric view](../../docs/images/iir_iso_transistors.webp)
+
 ![IIR filter in 3D](../../docs/images/iir_3d.webp)
 
 y[n] = b0 x[n] + b1 x[n-1] + b2 x[n-2] - a1 y[n-1] - a2 y[n-2]: a Butterworth

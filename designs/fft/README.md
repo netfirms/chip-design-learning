@@ -1,5 +1,7 @@
 # fft: 8-point complex FFT (Module 6, advanced)
 
+![The FFT chip: transistors, wiring and labelled I/O pins in an isometric view](../../docs/images/fft_iso_transistors.webp)
+
 ![FFT in 3D](../../docs/images/fft_3d.webp)
 
 X[k] = (1/8) Σ x[n] exp(-j 2π n k / 8), radix-2 decimation in time, with

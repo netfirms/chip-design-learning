@@ -1,5 +1,7 @@
 # fir: 16-tap low-pass FIR filter (Module 4, advanced)
 
+![The FIR filter chip: transistors, wiring and labelled I/O pins in an isometric view](../../docs/images/fir_iso_transistors.webp)
+
 ![FIR filter in 3D](../../docs/images/fir_3d.webp)
 
 y[n] = Σ h[k] x[n-k], k = 0..15, with Q1.15 samples and coefficients, a
