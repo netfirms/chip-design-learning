@@ -27,6 +27,7 @@ branch so students can try the quiz first. They are on the
 | 6b | [The FFT in software vs in hardware](06b-codesign.md) | `fft` + `codesign/` | 17 |
 | 7  | [Timing, area and power](07-ppa.md) | all | 18 |
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 18 |
+| +  | [Verification with cocotb](09-verification.md) (side module) | all | 20 |
 
 The decks are [Marp](https://marp.app/) Markdown: readable as plain Markdown
 on GitHub, and rendered as slides by Marp.
@@ -55,6 +56,7 @@ slides/
   theme/course.css               the Marp theme (title, exercise, quiz and small slide classes)
   images/                        diagrams and plots made by figures.py
   figures.py                     regenerates slides/images/ (numpy + matplotlib)
+  figures_verification.py        the verif_*.png figures for 09-verification.md
 ```
 
 Layout renders, simulation plots and SVG diagrams come from

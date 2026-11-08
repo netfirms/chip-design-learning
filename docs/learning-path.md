@@ -40,6 +40,11 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 7  | Timing, area and power          | all               | Advanced | Reading reports, making trade-offs        |
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
 
+**Side module: verification with cocotb** ([verification.md](verification.md)).
+Every design also has a Python testbench; this 2 to 3 hour module, best done
+after Module 4, teaches how to write them and how to tell whether a
+testbench actually catches bugs.
+
 Tick the boxes as you go. Each module also has a slide deck with more
 detail (theory, diagrams, worked examples, results): see [slides/](../slides/).
 

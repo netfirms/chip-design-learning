@@ -1,0 +1,3 @@
+# Python verification (cocotb testbenches in designs/*/cocotb/)
+cocotb==2.0.1
+numpy
