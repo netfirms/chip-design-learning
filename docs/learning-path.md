@@ -205,7 +205,7 @@ a real analog signal through the Module 4 FIR: analog in, ADC, `fir.v`,
 DAC, analog out.
 
 Read: [analog/README.md](../analog/README.md). Deck:
-[The analog bridge](../slides/06b-analog-bridge.md).
+[The analog bridge](../slides/06c-analog-bridge.md).
 
 ![A real signal through the chip in 3D](images/analog_chain_3d.png)
 

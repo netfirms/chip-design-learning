@@ -16,7 +16,7 @@ signal through the course's own FIR filter:
 ![The analog bridge: sensor, ADC, the FIR chip, DAC, speaker](../slides/images/analog_bridge.png)
 
 Level: bonus, after Module 6 (any time after Module 4 works). Time: 3 to 4 hours. Deck:
-[slides/06b-analog-bridge.md](../slides/06b-analog-bridge.md).
+[slides/06c-analog-bridge.md](../slides/06c-analog-bridge.md).
 
 ## Run it
 
