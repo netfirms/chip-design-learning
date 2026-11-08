@@ -53,8 +53,9 @@ labelled at their real places on the die edge. Each design's page has more
 | <img src="docs/images/fir_iso_transistors.webp" width="300"> | **[fir](designs/fir)**<br>Advanced | 16-tap low-pass FIR filter with one shared multiplier | 2,100 cells, 253 × 253 µm, 100 MHz |
 | <img src="docs/images/iir_iso_transistors.webp" width="300"> | **[iir](designs/iir)**<br>Advanced | 2nd-order Butterworth IIR biquad, one sample per clock | 1,600 cells, 235 × 235 µm, 50 MHz |
 | <img src="docs/images/fft_iso_transistors.webp" width="300"> | **[fft](designs/fft)**<br>Advanced | 8-point complex radix-2 FFT | 9,100 cells, 449 × 449 µm, 50 MHz |
+| <img src="docs/images/riscv_iso_transistors.webp" width="300"> | **[riscv](designs/riscv)**<br>Advanced | RV32I RISC-V CPU that runs C compiled by gcc | 6,200 cells, 427 × 427 µm, 50 MHz |
 
-All five designs pass their testbenches and route with 0 DRC violations and
+All six designs pass their testbenches and route with 0 DRC violations and
 positive timing slack.
 
 **Software or hardware?** [codesign/](codesign/) runs the same 8-point FFT
@@ -145,7 +146,7 @@ artifact of the run, and the job summary shows the same numbers as a table.
 ```
 .devcontainer/        Codespaces / Dev Container with every tool preinstalled
 docs/
-  learning-path.md   the course: 8 modules with exercises
+  learning-path.md   the course: 9 modules with exercises
   fixed-point.md     Q formats, rounding, saturation for DSP hardware
   flow-overview.md   what each RTL-to-GDS stage does and how to read reports
   setup.md           installing the tools (apt, OSS CAD Suite, Docker)
@@ -160,6 +161,7 @@ designs/<name>/
   cocotb/            the same checks and more, in Python (make cocotb)
   orfs/              OpenROAD-flow-scripts config + timing constraints (SDC)
   Makefile           sets TOP/RTL/TB and includes mk/design.mk
+designs/riscv/firmware/  C and assembly programs for the RISC-V CPU (make firmware)
 mk/design.mk         shared make rules for every design
 mk/cocotb.mk         runs a design's cocotb testbench (called by make cocotb)
 python/

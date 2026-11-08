@@ -28,6 +28,7 @@ branch so students can try the quiz first. They are on the
 | 7  | [Timing, area and power](07-ppa.md) | all | 18 |
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 18 |
 | +  | [Verification with cocotb](09-verification.md) (side module) | all | 20 |
+| 9  | [A RISC-V CPU that runs C](10-riscv.md) | `riscv` | 22 |
 
 The decks are [Marp](https://marp.app/) Markdown: readable as plain Markdown
 on GitHub, and rendered as slides by Marp.
@@ -52,11 +53,12 @@ on GitHub, and rendered as slides by Marp.
 
 ```
 slides/
-  01-flow.md ... 08-tapeout.md   the decks
+  01-flow.md ... 10-riscv.md    the decks
   theme/course.css               the Marp theme (title, exercise, quiz and small slide classes)
   images/                        diagrams and plots made by figures.py
   figures.py                     regenerates slides/images/ (numpy + matplotlib)
   figures_verification.py        the verif_*.png figures for 09-verification.md
+  figures_riscv.py               the riscv_*.png figures for 10-riscv.md
 ```
 
 Layout renders, simulation plots and SVG diagrams come from
