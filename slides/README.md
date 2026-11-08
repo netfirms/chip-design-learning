@@ -25,6 +25,7 @@ branch so students can try the quiz first. They are on the
 | 5  | [IIR filters](05-iir.md) | `iir` | 17 |
 | 6  | [The FFT](06-fft.md) | `fft` | 18 |
 | 6b | [The FFT in software vs in hardware](06b-codesign.md) | `fft` + `codesign/` | 17 |
+| 6c | [The analog bridge: ADC and DAC](06c-analog-bridge.md) | `analog/` | 24 |
 | 7  | [Timing, area and power](07-ppa.md) | all | 18 |
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 18 |
 | +  | [Verification with cocotb](09-verification.md) (side module) | all | 20 |

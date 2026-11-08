@@ -1,0 +1,21 @@
+v {xschem version=3.4.4 file_version=1.2}
+G {}
+K {type=comparator
+format="@name @@out 0 V = @vhigh * (0.5 + 0.5 * tanh( @gain * (V( @@inp ) - V( @@inn ))))"
+template="name=B1 vhigh=1.8 gain=1e5"}
+V {}
+S {}
+E {}
+L 4 -20 -20 -20 20 {}
+L 4 -20 -20 20 0 {}
+L 4 -20 20 20 0 {}
+L 4 -40 -10 -20 -10 {}
+L 4 -40 10 -20 10 {}
+L 4 20 0 40 0 {}
+L 4 -16 -10 -10 -10 {}
+L 4 -13 -13 -13 -7 {}
+L 4 -16 10 -10 10 {}
+B 5 -42.5 -12.5 -37.5 -7.5 {name=inp dir=in}
+B 5 -42.5 7.5 -37.5 12.5 {name=inn dir=in}
+B 5 37.5 -2.5 42.5 2.5 {name=out dir=out}
+T {@name} 0 -32 0 0 0.2 0.2 {}
