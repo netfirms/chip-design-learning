@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        design: [counter, pwm, fir, iir, fft, riscv]
+        design: [counter, pwm, fir, iir, fft, riscv, aes]
     steps:
       - uses: actions/checkout@v4
 
