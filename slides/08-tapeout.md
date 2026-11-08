@@ -226,6 +226,7 @@ endmodule
 ```
 
 Check the current template for exact port names before you submit.
+**Module 9** does all of this for the FIR: [09-tinytapeout.md](09-tinytapeout.md).
 
 ---
 
@@ -254,7 +255,8 @@ Check the current template for exact port names before you submit.
    numbers to the Module 7 scoreboard.
 5. Write a README for your design: what it is, the interface, results, one
    picture.
-6. **Stretch:** wrap it for Tiny Tapeout, run their CI, and submit.
+6. **Stretch:** wrap it for Tiny Tapeout, run their CI, and submit
+   (Module 9 walks through it with the FIR).
 
 ---
 

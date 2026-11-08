@@ -1,0 +1,61 @@
+# Tiny Tapeout project information
+# Course capstone (docs/learning-path.md, Module 9): the 16-tap FIR from
+# designs/fir with 8-bit samples. Fill in title/author/discord, rename the
+# top module, then copy this folder into a repo made from the Tiny Tapeout
+# template (see README.md, "Submitting").
+project:
+  title:        "16-tap low-pass FIR filter"      # Project title
+  author:       ""      # Your name
+  discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
+  description:  "16-tap windowed-sinc low-pass FIR (cutoff 0.1 fs), 8-bit samples, one shared multiplier"      # One line description of what your project does
+  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
+  clock_hz:     50000000       # Clock frequency in Hz (or 0 if not applicable)
+
+  # How many tiles your design occupies? A single tile is about 167x108 uM.
+  tiles: "1x2"          # 1x1 routes at 85% full, too tight; see README.md. Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
+
+  # Your top module name must start with "tt_um_". Make it unique by including your github username:
+  top_module:  "tt_um_chipcourse_fir"
+
+  # List your project's source files here.
+  # Source files must be in ./src and you must list each source file separately, one per line.
+  # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
+  source_files:
+    - "project.v"
+    - "fir.v"
+
+# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
+# This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
+pinout:
+  # Inputs
+  ui[0]: "X0 (sample in, LSB)"
+  ui[1]: "X1"
+  ui[2]: "X2"
+  ui[3]: "X3"
+  ui[4]: "X4"
+  ui[5]: "X5"
+  ui[6]: "X6"
+  ui[7]: "X7 (sample in, sign)"
+
+  # Outputs
+  uo[0]: "Y0 (filtered out, LSB)"
+  uo[1]: "Y1"
+  uo[2]: "Y2"
+  uo[3]: "Y3"
+  uo[4]: "Y4"
+  uo[5]: "Y5"
+  uo[6]: "Y6"
+  uo[7]: "Y7 (filtered out, sign)"
+
+  # Bidirectional pins
+  uio[0]: "STROBE (in, rising edge loads X)"
+  uio[1]: "READY (out)"
+  uio[2]: "VALID (out, 1-clock pulse)"
+  uio[3]: "TOGGLE (out, flips per new Y)"
+  uio[4]: ""
+  uio[5]: ""
+  uio[6]: ""
+  uio[7]: ""
+
+# Do not change!
+yaml_version: 6

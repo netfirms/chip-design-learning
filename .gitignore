@@ -15,3 +15,7 @@ __pycache__/
 .idea/
 *.swp
 .DS_Store
+
+# cocotb outputs (designs/*/test)
+sim_build/
+results.xml

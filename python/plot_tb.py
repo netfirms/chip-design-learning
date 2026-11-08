@@ -42,7 +42,9 @@ def plot_pwm(data, ax):
 
 
 def plot_filter(data, ax):
-    n, x, y = data[:, 0], data[:, 1] / Q15, data[:, 2] / Q15
+    # Q1.15 samples, or Q1.7 for the 8-bit Tiny Tapeout FIR (designs/tt_fir)
+    scale = 128.0 if np.abs(data[:, 1]).max() <= 128 else Q15
+    n, x, y = data[:, 0], data[:, 1] / scale, data[:, 2] / scale
     phase = data[:, 3]
     ax[0].plot(n, x, lw=0.6, label="x (input)")
     ax[0].plot(n, y, lw=0.8, label="y (output)")
