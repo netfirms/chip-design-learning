@@ -17,8 +17,8 @@ to a real layout with open-source tools.
 complement, convolution, the Z-transform and frequency response, the DFT, and
 basic programming (Python or C).
 
-**Format:** 8 modules, each 3 to 6 hours. A typical pace is two modules a
-week, so four weeks in total. Every module has a working design in
+**Format:** 8 modules, each 3 to 6 hours, plus a CPU module to finish. A
+typical pace is two modules a week, so four to five weeks in total. Every module has a working design in
 `designs/`, a self-checking testbench, and exercises. Every design goes
 through the same flow:
 
@@ -36,8 +36,15 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 4  | FIR filters                     | `fir`             | Advanced | Time-shared MAC, throughput vs. area      |
 | 5  | IIR filters                     | `iir`             | Advanced | Feedback, stability, parallel datapath    |
 | 6  | The FFT                         | `fft`             | Advanced | Butterflies, twiddles, scaling            |
+| 6b | The FFT in software vs hardware | `codesign/`       | Advanced | Speed, energy, area; golden models        |
 | 7  | Timing, area and power          | all               | Advanced | Reading reports, making trade-offs        |
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
+| 9  | A RISC-V CPU that runs C        | `riscv`           | Advanced | Instruction set, datapath, gcc on your RTL |
+
+**Side module: verification with cocotb** ([verification.md](verification.md)).
+Every design also has a Python testbench; this 2 to 3 hour module, best done
+after Module 4, teaches how to write them and how to tell whether a
+testbench actually catches bugs.
 
 Tick the boxes as you go. Each module also has a slide deck with more
 detail (theory, diagrams, worked examples, results): see [slides/](../slides/).
@@ -197,7 +204,25 @@ The 9,100 cells of the FFT, down at the transistor level:
       twiddle ROM (the "in-place, iterative" architecture used in real
       chips).
 
-## Bonus: The analog bridge, ADC and DAC (`analog/`)
+## Module 6b: The FFT in software vs in hardware (`codesign/`)
+
+Goal: compare the same FFT as Python, NumPy, C and as the chip on speed,
+energy and area, and learn when a job should be hardware. See
+[codesign/README.md](../codesign/README.md) and the
+[slides](../slides/06b-codesign.md).
+
+- A bit-exact Python model of `fft8.v` that matches the RTL on every output bit
+- Batched NumPy and C beat the 50 MHz chip on throughput; the chip uses
+  ~270× to 30,000× less energy per FFT and has a fixed latency
+- 16 of the chip's 17 cycles per FFT are moving data: the interface matters
+
+![Energy per FFT, software vs hardware](images/codesign_energy.png)
+
+- [ ] `make -C codesign check bench`. Compare your machine's numbers with
+      the charts.
+- [ ] **Exercise:** the exercises in [codesign/README.md](../codesign/README.md#exercises).
+
+## Module 6c: The analog bridge, ADC and DAC (`analog/`)
 
 Goal: connect your DSP hardware to real signals. Build an 8-bit R-2R DAC and
 a flash ADC as **Xschem** schematics, simulate them in **ngspice**, then run
@@ -236,6 +261,7 @@ corner). Reproduce them, then use them for the exercises:
 | fir     | 2,123 |          25,200 | 253 × 253 | 10 ns |     0.06 ns |      ~100 MHz | 4.9 mW |
 | iir     | 1,560 |          19,000 | 235 × 235 | 20 ns |     9.07 ns |       ~90 MHz | 1.3 mW |
 | fft     | 9,073 |          79,800 | 449 × 449 | 20 ns |     5.77 ns |       ~70 MHz | 2.7 mW |
+| riscv   | 6,248 |          77,000 | 427 × 427 | 20 ns |     9.43 ns |       ~95 MHz | 7.4 mW |
 
 "Fastest clock" is 1 / (clock period - worst slack), a first estimate; the
 tools re-optimise when you actually tighten the constraint.
@@ -272,6 +298,46 @@ Then learn what a real tapeout adds: DRC/LVS signoff (Magic, KLayout,
 Netgen), I/O pads and the harness around your design.
 [Tiny Tapeout](https://tinytapeout.com/) is the most accessible way to get a
 small design fabricated, and it uses the same open-source tools.
+
+## Module 9: A RISC-V CPU that runs C (`designs/riscv`)
+
+Goal: build a processor, the most general piece of hardware there is, and
+run a C program compiled by gcc on it. This is "Hardware is the new
+Software" taken literally: a software toolchain and a hardware toolchain in
+the same repo, and `make sim` runs one on the other.
+
+`minirv` is a small multi-cycle RV32I CPU in one Verilog file of about 250
+lines: fetch, execute, and a memory step for loads and stores. The
+testbench is the rest of the computer: 64 KB of RAM loaded from a `.hex`
+file, a console register for printing and an exit register.
+
+![C and Verilog: the two flows](../slides/images/riscv_toolchain.png)
+
+![minirv datapath](../slides/images/riscv_datapath.png)
+
+- The RISC-V instruction formats, and why the register fields never move
+- A datapath plus a state machine: the same parts as the DSP designs,
+  made general by an instruction register
+- Bare-metal C: start-up code, a linker script, memory-mapped I/O
+- What the hardware leaves out, software does: `*` and `/` become libgcc calls
+- Verifying a CPU with self-checking programs
+
+- [ ] `make sim` in `designs/riscv`. It runs `isa_test` (every instruction
+      against the spec), then `hello.c`, which prints to the console.
+- [ ] `vvp build/sim +trace` prints each instruction as it executes. Follow
+      the first ten in `firmware/isa_test.lst`.
+- [ ] Install `gcc-riscv64-unknown-elf`, change `firmware/hello.c`, and
+      `make firmware sim`.
+- [ ] `make synth-sky130` and `make pnr`. How much of the area is the
+      register file?
+
+![Where minirv's area goes](../slides/images/riscv_area.png)
+
+![minirv in sky130: transistors, wiring and pins](images/riscv_iso_transistors.webp)
+- [ ] **Exercise:** add the M extension (`mul`, `div`, `rem`), build the
+      firmware with `-march=rv32im`, and compare cycles and area.
+- [ ] **Stretch:** pipeline the CPU (fetch / execute / memory) and measure
+      CPI on `hello.c` and the new fastest clock.
 
 ---
 

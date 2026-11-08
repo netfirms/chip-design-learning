@@ -7,6 +7,11 @@ You need two groups of tools:
 
 Run `make doctor` at any point to see which tools are on your `PATH`.
 
+**Don't want to install anything?** Open the repo in GitHub Codespaces and
+every tool below, OpenROAD included, is ready in your browser:
+[browser labs](codespaces.md). The same `.devcontainer/` also works on your
+own machine with VS Code's *Dev Containers* extension and Docker.
+
 ## Option A: OSS CAD Suite (recommended for the front end)
 
 [OSS CAD Suite](https://github.com/YosysHQ/oss-cad-suite-build) is a nightly
@@ -47,6 +52,15 @@ coefficients (`python/dsp_coeffs.py`) and plot testbench results
 ```sh
 python3 -m venv .venv && source .venv/bin/activate   # optional
 pip install -r python/requirements.txt
+```
+
+### cocotb (Python testbenches)
+
+`make cocotb` and `make check-cocotb` need cocotb 2.0 and Icarus Verilog
+(see [verification.md](verification.md)):
+
+```sh
+pip install -r python/requirements-verif.txt
 ```
 
 ### 3D layout renders (optional)

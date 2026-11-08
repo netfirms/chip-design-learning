@@ -317,3 +317,32 @@ comparators. Same Xschem + ngspice flow.
 - Xschem + ngspice is the analog twin of Verilog + Icarus: **schematics are
   code too**, netlisted, simulated and checked in CI.
 - Your Verilog FIR just filtered a **real signal**. Hardware is the new Software.
+
+---
+
+<!-- _class: quiz -->
+
+## Quiz (1/2)
+
+1. What is 1 LSB of the 8-bit R-2R DAC with VREF = 1.8 V?
+   <span class="opts">**A** 3.5 mV &nbsp;·&nbsp; **B** 7.03 mV &nbsp;·&nbsp; **C** 14.1 mV &nbsp;·&nbsp; **D** 225 mV</span>
+2. How many comparators does an 8-bit flash ADC need?
+   <span class="opts">**A** 8 &nbsp;·&nbsp; **B** 128 &nbsp;·&nbsp; **C** 255 &nbsp;·&nbsp; **D** 256</span>
+3. Why does an R-2R ladder need only two resistor values, whatever the number of bits? <span class="sa">*(short answer)*</span>
+4. With 1 % mismatch, the 127 → 128 step has DNL = −1.15 LSB. What does the output do at that step, and why is it this step? <span class="sa">*(short answer)*</span>
+
+---
+
+<!-- _class: quiz -->
+
+## Quiz (2/2)
+
+5. What is the ideal SNR of a 10-bit converter for a full-scale sine?
+   <span class="opts">**A** 50 dB &nbsp;·&nbsp; **B** 62 dB &nbsp;·&nbsp; **C** 80 dB &nbsp;·&nbsp; **D** 98 dB</span>
+6. A 40 kHz tone is sampled at 48 kS/s with no anti-alias filter. Where does it appear?
+   <span class="opts">**A** 4 kHz &nbsp;·&nbsp; **B** 8 kHz &nbsp;·&nbsp; **C** 24 kHz &nbsp;·&nbsp; **D** 40 kHz</span>
+7. The ADC outputs code 200. Which Q1.15 value does the chain feed to `fir.v`?
+   <span class="opts">**A** 200 &nbsp;·&nbsp; **B** 18,432 &nbsp;·&nbsp; **C** 51,200 &nbsp;·&nbsp; **D** −14,336</span>
+8. Why does the flash ADC have a sample-and-hold in front of its comparators? <span class="sa">*(short answer)*</span>
+
+> Answer on paper first, then check yourself against the answer key on the `quiz-answers` branch (`slides/answers/`).
