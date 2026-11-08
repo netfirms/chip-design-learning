@@ -8,6 +8,7 @@
 #   make check-cocotb             # Python (cocotb) testbenches for every design
 #   make doctor                   # check which tools are installed
 #   make slides                   # learning decks as HTML (slides/*.html), needs Node.js
+#   make slides-site              # deck index site in build/slides-site/, needs Node.js + Chrome
 #   make slides-pdf               # learning decks as PDF (slides/pdf/), needs Node.js + Chrome
 #   make ppa                      # area/timing/power dashboard for every design (ppa/index.html)
 
@@ -15,7 +16,7 @@ DESIGN  ?= counter
 DESIGNS := $(notdir $(wildcard designs/*))
 TARGETS := all sim waves lint verilator cocotb synth show synth-sky130 pnr pnr-gui plot clean
 
-.PHONY: $(TARGETS) check check-sky130 check-cocotb doctor slides slides-pdf ppa
+.PHONY: $(TARGETS) check check-sky130 check-cocotb doctor slides slides-site slides-pdf ppa
 
 $(TARGETS):
 	$(MAKE) -C designs/$(DESIGN) $@
@@ -53,6 +54,14 @@ MARP_FLAGS := --theme-set slides/theme/course.css --html --allow-local-files
 # stdin is redirected because marp reads Markdown from a pipe when it has one.
 slides:
 	@for d in $(DECKS); do $(MARP) $(MARP_FLAGS) slides/$$d.md -o slides/$$d.html < /dev/null || exit 1; done
+
+# Browsable site: an index page with a card per deck, the decks, their images
+# and title-slide thumbnails, in build/slides-site/ (open index.html).
+SITE := build/slides-site
+slides-site: slides
+	@python3 scripts/build_slides_site.py
+	@mkdir -p $(SITE)/thumbs
+	@for d in $(DECKS); do $(MARP) $(MARP_FLAGS) --image png --image-scale 0.5 slides/$$d.md -o $(SITE)/thumbs/$$d.png < /dev/null || exit 1; done
 
 slides-pdf:
 	@mkdir -p slides/pdf
