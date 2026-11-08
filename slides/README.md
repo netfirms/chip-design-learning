@@ -29,6 +29,7 @@ branch so students can try the quiz first. They are on the
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 18 |
 | +  | [Verification with cocotb](09-verification.md) (side module) | all | 20 |
 | 9  | [A RISC-V CPU that runs C](10-riscv.md) | `riscv` | 22 |
+| 10 | [Capstone: the FIR on Tiny Tapeout](11-tinytapeout.md) | `tt_fir` | 17 |
 
 The decks are [Marp](https://marp.app/) Markdown: readable as plain Markdown
 on GitHub, and rendered as slides by Marp.
@@ -53,7 +54,7 @@ on GitHub, and rendered as slides by Marp.
 
 ```
 slides/
-  01-flow.md ... 10-riscv.md    the decks
+  01-flow.md ... 11-tinytapeout.md  the decks
   theme/course.css               the Marp theme (title, exercise, quiz and small slide classes)
   images/                        diagrams and plots made by figures.py
   figures.py                     regenerates slides/images/ (numpy + matplotlib)

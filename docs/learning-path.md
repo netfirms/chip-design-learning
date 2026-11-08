@@ -17,8 +17,9 @@ to a real layout with open-source tools.
 complement, convolution, the Z-transform and frequency response, the DFT, and
 basic programming (Python or C).
 
-**Format:** 8 modules, each 3 to 6 hours, plus a CPU module to finish. A
-typical pace is two modules a week, so four to five weeks in total. Every module has a working design in
+**Format:** 8 modules, each 3 to 6 hours, plus a CPU module and a Tiny
+Tapeout capstone to finish. A typical pace is two modules a week, so five
+to six weeks in total. Every module has a working design in
 `designs/`, a self-checking testbench, and exercises. Every design goes
 through the same flow:
 
@@ -40,6 +41,7 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 7  | Timing, area and power          | all               | Advanced | Reading reports, making trade-offs        |
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
 | 9  | A RISC-V CPU that runs C        | `riscv`           | Advanced | Instruction set, datapath, gcc on your RTL |
+| 10 | Capstone: FIR on Tiny Tapeout   | `tt_fir`          | Project  | Fixed pins, fixed tile, async inputs      |
 
 **Side module: verification with cocotb** ([verification.md](verification.md)).
 Every design also has a Python testbench; this 2 to 3 hour module, best done
@@ -277,6 +279,7 @@ Then learn what a real tapeout adds: DRC/LVS signoff (Magic, KLayout,
 Netgen), I/O pads and the harness around your design.
 [Tiny Tapeout](https://tinytapeout.com/) is the most accessible way to get a
 small design fabricated, and it uses the same open-source tools.
+Module 10 does exactly that with the FIR filter.
 
 ## Module 9: A RISC-V CPU that runs C (`designs/riscv`)
 
@@ -319,6 +322,50 @@ file, a console register for printing and an exit register.
       CPI on `hello.c` and the new fastest clock.
 
 ---
+
+## Module 10: Capstone, the FIR on Tiny Tapeout (`designs/tt_fir`)
+
+Goal: turn a course design into a real chip project. A shared shuttle gives
+you a fixed pinout and a tile of fixed size, and it talks to the outside
+world, so the design has to deal with all three.
+
+Read: [designs/tt_fir/README.md](../designs/tt_fir/README.md) and the
+[Module 10 deck](../slides/11-tinytapeout.md).
+
+![The Tiny Tapeout FIR, routed in its tile](images/tt_fir_iso_transistors.webp)
+
+The filter core is `designs/fir/rtl/fir.v`, unchanged, built with 8-bit
+samples (`fir #(.W(8))`) so a sample fits the 8 input pins. Around it,
+`src/project.v` adds what a chip needs:
+
+- the Tiny Tapeout pinout: X on `ui[7:0]`, Y on `uo[7:0]`, and STROBE,
+  READY, VALID, TOGGLE on `uio[3:0]`
+- a two-flip-flop **synchroniser** and an edge detector on STROBE, because
+  it comes from a button or a microcontroller, not from the chip's clock
+- TOGGLE, a level that flips on every result, because a 20 ns VALID pulse is
+  too short for a microcontroller to see
+
+| Tiles | Die (µm) | Utilisation | Worst slack at 50 MHz | Power | DRC |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 1x1 | 161 × 112 | 85% | +10.08 ns | 1.2 mW | 0 |
+| **1x2** | 161 × 226 | 42% | +9.80 ns | 1.2 mW | 0 |
+
+It routes in one tile, but with no headroom for Tiny Tapeout's own flow, so
+the project asks for two.
+
+- [ ] `make sim lint` in `designs/tt_fir`: `PASS`, no warnings. Then
+      `make tt-test` runs Tiny Tapeout's cocotb test (needs
+      `pip install -r test/requirements.txt`).
+- [ ] `make pnr` and compare with the table. Switch `orfs/config.mk` to the
+      1x1 die and run it again.
+- [ ] Follow "Submitting" in the design README: create a repo from the
+      Tiny Tapeout template, `make tt-export TT_REPO=...`, rename the top
+      module, push, and get every Action green.
+- [ ] **Exercise:** make it fit 1x1 with room to spare (a delay line without
+      reset, fewer taps, narrower coefficients) and keep the bit-exact test
+      passing. What does each change cost in stop-band attenuation?
+- [ ] **Exercise:** write the RP2040 MicroPython that sends an impulse and
+      prints the 16 outputs. Compare them with `docs/info.md`.
 
 ## Further reading
 

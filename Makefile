@@ -46,7 +46,7 @@ doctor:
 
 # ---- Learning decks (Marp) -------------------------------------------------
 MARP       ?= npx --yes @marp-team/marp-cli@4.5.1
-DECKS      := $(basename $(notdir $(wildcard slides/0*.md)))
+DECKS      := $(basename $(notdir $(wildcard slides/[0-9]*.md)))
 MARP_FLAGS := --theme-set slides/theme/course.css --html --allow-local-files
 
 # HTML goes next to each deck so the relative image paths keep working.

@@ -46,6 +46,16 @@ for spec in counter:counter pwm:pwm fir:fir iir:iir fft:fft8 riscv:minirv; do
         --caption "$d, transistor level: diffusion (green), polysilicon gates (red), local interconnect (blue), contacts (grey)"
 done
 
+# Tiny Tapeout capstone (designs/tt_fir, 1x2 tiles). tt_fir_1x1_3d.webp comes
+# from a second `make pnr` with the 1x1 die in designs/tt_fir/orfs/config.mk.
+g=$(gds tt_fir tt_fir)
+if [[ -f "$g" ]]; then
+    python3 python/render_transistors_iso.py "$g" "${g%.gds}.def" -o $I/tt_fir_iso_transistors.webp \
+        --title "The FIR as a Tiny Tapeout project (1x2 tiles): transistors and wiring"
+    python3 $R "$g" -o $I/tt_fir_3d.webp --size 1600 900 --zscale 2.5 --elevation 40 --azimuth -60 \
+        --zoom 0.78 --caption "tt_fir in 1x2 Tiny Tapeout tiles (161 x 226 um), 42% full, rendered from the routed GDS"
+fi
+
 # ORFS stage pictures (placement, clock tree, routing) for the FIR
 rep=designs/fir/build/orfs/reports/sky130hd/fir/base
 for f in final_placement final_clocks final_routing final_congestion final_ir_drop final_worst_path; do
@@ -53,7 +63,7 @@ for f in final_placement final_clocks final_routing final_congestion final_ir_dr
 done
 
 # Testbench plots and filter design plot
-for spec in pwm:pwm fir:fir iir:iir fft:fft8; do
+for spec in pwm:pwm fir:fir iir:iir fft:fft8 tt_fir:tt_um_chipcourse_fir; do
     d=${spec%%:*}; t=${spec##*:}
     make -s -C designs/$d plot >/dev/null && cp designs/$d/build/${t}_out.png $I/${d}_sim.png
 done

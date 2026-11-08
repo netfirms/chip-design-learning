@@ -851,11 +851,125 @@ def fig_nco():
     save(fig, "nco.png")
 
 
+# ---------------------------------------------------------------------------
+# Module 10: Tiny Tapeout capstone (designs/tt_fir)
+# ---------------------------------------------------------------------------
+def fig_tt_pinout():
+    fig, ax = canvas(13, 6.2)
+    # The tile
+    ax.add_patch(FancyBboxPatch((4.2, 0.6), 4.6, 5.0, boxstyle="round,pad=0.02,rounding_size=0.1",
+                                fc="#f6f8fa", ec=GREY, lw=2))
+    ax.text(6.5, 5.25, "tt_um_..._fir  (Tiny Tapeout tiles: 1x2)", ha="center", fontsize=11, color=GREY)
+    box(ax, 4.5, 3.3, 1.3, 1.2, "2-FF sync\n+ edge", fs=10)
+    box(ax, 6.5, 2.3, 1.9, 2.4, "fir.v\nW = 8\n16 taps\n1 MAC", fs=11, bold=True)
+    box(ax, 4.5, 1.2, 1.3, 1.0, "TOGGLE\nflip-flop", fs=10)
+    arrow(ax, 5.8, 3.9, 6.5, 3.9, color=ACCENT)
+    ax.text(6.15, 3.75, "in_valid", ha="center", va="top", fontsize=8, color=ACCENT)
+    arrow(ax, 6.5, 2.5, 5.8, 1.9, color=GREEN)
+    # Inputs, left
+    arrow(ax, 1.6, 3.9, 4.5, 3.9, color=ACCENT2, text="uio[0]  STROBE", tpos=0.35)
+    arrow(ax, 1.6, 2.9, 6.5, 2.9, color=ACCENT2, text="ui[7:0]  X (Q1.7)", tpos=0.25)
+    ax.text(1.4, 2.9, "sample\nin", ha="right", va="center", fontsize=10, color=ACCENT2)
+    ax.text(1.4, 3.9, "load", ha="right", va="center", fontsize=10, color=ACCENT2)
+    for y, t in ((5.0, "clk  (50 MHz)"), (4.55, "rst_n")):
+        arrow(ax, 1.6, y, 4.2, y, color=GREY, text=t, tpos=0.45, fs=9)
+    # Outputs, right
+    arrow(ax, 8.4, 4.2, 11.6, 4.2, color=GREEN, text="uo[7:0]  Y (Q1.7)", tpos=0.6)
+    arrow(ax, 8.4, 3.4, 11.6, 3.4, color=GREEN, text="uio[1]  READY", tpos=0.6)
+    arrow(ax, 8.4, 2.6, 11.6, 2.6, color=GREEN, text="uio[2]  VALID", tpos=0.6)
+    arrow(ax, 5.8, 1.5, 11.6, 1.5, color=GREEN, text="uio[3]  TOGGLE", tpos=0.78)
+    ax.text(11.75, 4.2, "filtered\nout", ha="left", va="center", fontsize=10, color=GREEN)
+    ax.text(6.5, 0.25, "uio[7:4] unused (inputs)   ·   uio_oe = 0000_1110", ha="center", fontsize=10, color=GREY)
+    save(fig, "tt_pinout.png")
+
+
+def fig_tt_handshake():
+    # Cycle-accurate: these edges come from simulating designs/tt_fir
+    # (STROBE raised just before clock 3, ready drops after 5, valid at 21).
+    n = 26
+    fig, ax = plt.subplots(figsize=(13, 3.8))
+    ax.grid(False)
+    rows = [
+        ("clk", None),
+        ("STROBE  uio[0]", [(3, 7)]),
+        ("in_valid (inside)", [(4, 5)]),
+        ("READY  uio[1]", [(0, 5), (21, n)]),
+        ("VALID  uio[2]", [(21, 22)]),
+        ("TOGGLE  uio[3]", [(22, n)]),
+    ]
+    for i, (name, highs) in enumerate(rows):
+        y0 = (len(rows) - 1 - i) * 1.0
+        ax.text(-0.5, y0 + 0.3, name, ha="right", va="center", fontsize=10)
+        if highs is None:
+            xs, ys = [], []
+            for c in range(n):
+                xs += [c, c, c + 0.5, c + 0.5]
+                ys += [y0, y0 + 0.6, y0 + 0.6, y0]
+            ax.plot(xs, ys, color=GREY, lw=1)
+            continue
+        xs, ys = [0], [y0]
+        for a, b in highs:
+            xs += [a, a, b, b]
+            ys += [y0, y0 + 0.6, y0 + 0.6, y0]
+        xs.append(n)
+        ys.append(y0)
+        col = ACCENT2 if "STROBE" in name else (ACCENT if "inside" in name else GREEN)
+        ax.plot(xs, ys, color=col, lw=2)
+    ax.axvspan(5, 21, color=SOFT, zorder=0)
+    ax.text(13, 5.75, "busy: 16 multiply-accumulate cycles", ha="center", fontsize=10, color=ACCENT)
+    ax.text(5.3, -0.55, "2 clocks to synchronise STROBE, 1 to load X, 16 to compute: Y is ready ~19 clocks after STROBE",
+            fontsize=10, color=GREY)
+    ax.set_xlim(-0.2, n)
+    ax.set_ylim(-0.8, 6.1)
+    ax.set_yticks([])
+    ax.set_xticks(range(0, n, 2))
+    ax.set_xlabel("clock cycle (20 ns each at 50 MHz)")
+    for sp in ("left", "bottom"):
+        ax.spines[sp].set_visible(False)
+    save(fig, "tt_handshake.png")
+
+
+def fig_tt_fit():
+    # Numbers from `make synth-sky130` and `make pnr` in designs/tt_fir and designs/fir
+    fig, axs = plt.subplots(1, 2, figsize=(13, 4.2))
+    ax = axs[0]
+    ff, mux = 25.02, 11.26          # dfrtp_1 and mux2_1 area in the sky130hd Liberty file
+    parts = [("delay line\n128 flip-flops", 128 * ff),
+             ("their load\nmuxes", 128 * mux),
+             ("other flip-flops\n(acc, k, Y, sync)", 46 * ff),
+             ("multiplier, tap select,\nadders, round, saturate", 12033 - 174 * ff - 128 * mux)]
+    left = 0
+    cols = [ACCENT, "#5fa8c0", ACCENT2, GREEN]
+    for (name, a), c in zip(parts, cols):
+        ax.barh([0], [a], left=left, color=c, ec="white", label=f"{name.replace(chr(10), ' ')}: {a:,.0f} µm²")
+        ax.text(left + a / 2, 0, f"{100 * a / 12033:.0f}%", ha="center", va="center", fontsize=10, color="white")
+        left += a
+    ax.legend(loc="upper center", fontsize=9, frameon=False, ncol=1)
+    ax.set_ylim(-0.6, 2.2)
+    ax.set_yticks([])
+    ax.set_xlabel("cell area (µm²), Yosys onto sky130 cells, 12,033 µm² in total")
+    ax.set_title("where the 8-bit FIR's area goes")
+    ax.grid(False)
+
+    ax = axs[1]
+    names = ["fir (16-bit), sized\nfor 40%: 253 × 253 µm", "tt_fir in 1x1\n161 × 112 µm", "tt_fir in 1x2\n161 × 226 µm"]
+    util = [40, 85, 42]
+    bars = ax.bar(names, util, color=[GREY, ACCENT2, GREEN])
+    ax.axhline(60, color=RED, ls="--", lw=1)
+    ax.text(2.45, 61.5, "Tiny Tapeout default\nplacement density 60%", ha="right", fontsize=9, color=RED)
+    for b, u in zip(bars, util):
+        ax.text(b.get_x() + b.get_width() / 2, u + 1.5, f"{u}%", ha="center", fontsize=11)
+    ax.set_ylim(0, 100)
+    ax.set_ylabel("core utilisation after P&R (%)")
+    ax.set_title("all route: 0 DRC, timing met; 1x2 leaves headroom")
+    save(fig, "tt_fit.png")
+
+
 def main():
     for fn in (fig_flow, fig_counter_wave, fig_ff_timing, fig_pwm, fig_pwm_glitch, fig_pwm_block,
                fig_qformat, fig_rounding, fig_bitgrowth, fig_fir_response, fig_fir_arch, fig_fir_timeline,
                fig_iir_df1, fig_iir_pz, fig_iir_limit_cycle, fig_fft_butterfly, fig_twiddles, fig_fft_cost,
-               fig_tradeoff, fig_power, fig_pipeline, fig_nco):
+               fig_tradeoff, fig_power, fig_pipeline, fig_nco, fig_tt_pinout, fig_tt_handshake, fig_tt_fit):
         fn()
 
 
