@@ -22,6 +22,11 @@ jobs:
       - name: Synthesis onto sky130 cells (every design)
         run: make check-sky130
 
+      - name: Bit-exact software model vs the FFT RTL (codesign)
+        run: |
+          sudo apt-get install -y --no-install-recommends python3-numpy
+          make -C codesign check
+
       - name: Upload build outputs
         if: always()
         uses: actions/upload-artifact@v4

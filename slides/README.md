@@ -24,6 +24,7 @@ branch so students can try the quiz first. They are on the
 | 4  | [FIR filters](04-fir.md) | `fir` | 20 |
 | 5  | [IIR filters](05-iir.md) | `iir` | 17 |
 | 6  | [The FFT](06-fft.md) | `fft` | 18 |
+| 6b | [The FFT in software vs in hardware](06b-codesign.md) | `fft` + `codesign/` | 17 |
 | 7  | [Timing, area and power](07-ppa.md) | all | 18 |
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 18 |
 

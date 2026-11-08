@@ -36,6 +36,7 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 4  | FIR filters                     | `fir`             | Advanced | Time-shared MAC, throughput vs. area      |
 | 5  | IIR filters                     | `iir`             | Advanced | Feedback, stability, parallel datapath    |
 | 6  | The FFT                         | `fft`             | Advanced | Butterflies, twiddles, scaling            |
+| 6b | The FFT in software vs hardware | `codesign/`       | Advanced | Speed, energy, area; golden models        |
 | 7  | Timing, area and power          | all               | Advanced | Reading reports, making trade-offs        |
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
 
@@ -196,6 +197,24 @@ The 9,100 cells of the FFT, down at the transistor level:
 - [ ] **Stretch:** a 64-point FFT with a single butterfly, a RAM and a
       twiddle ROM (the "in-place, iterative" architecture used in real
       chips).
+
+## Module 6b: The FFT in software vs in hardware (`codesign/`)
+
+Goal: compare the same FFT as Python, NumPy, C and as the chip on speed,
+energy and area, and learn when a job should be hardware. See
+[codesign/README.md](../codesign/README.md) and the
+[slides](../slides/06b-codesign.md).
+
+- A bit-exact Python model of `fft8.v` that matches the RTL on every output bit
+- Batched NumPy and C beat the 50 MHz chip on throughput; the chip uses
+  ~270× to 30,000× less energy per FFT and has a fixed latency
+- 16 of the chip's 17 cycles per FFT are moving data: the interface matters
+
+![Energy per FFT, software vs hardware](images/codesign_energy.png)
+
+- [ ] `make -C codesign check bench`. Compare your machine's numbers with
+      the charts.
+- [ ] **Exercise:** the exercises in [codesign/README.md](../codesign/README.md#exercises).
 
 ## Module 7: Timing, area and power
 
