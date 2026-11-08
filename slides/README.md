@@ -15,6 +15,7 @@ exercises and key takeaways.
 | 6  | [The FFT](06-fft.md) | `fft` | 16 |
 | 7  | [Timing, area and power](07-ppa.md) | all | 16 |
 | 8  | [Your own design and tapeout](08-tapeout.md) | yours | 16 |
+| 9  | [A RISC-V CPU that runs C](09-riscv.md) | `riscv` | 22 |
 
 The decks are [Marp](https://marp.app/) Markdown: readable as plain Markdown
 on GitHub, and rendered as slides by Marp.
@@ -39,10 +40,11 @@ on GitHub, and rendered as slides by Marp.
 
 ```
 slides/
-  01-flow.md ... 08-tapeout.md   the decks
+  01-flow.md ... 09-riscv.md    the decks
   theme/course.css               the Marp theme (title, exercise and small slide classes)
   images/                        diagrams and plots made by figures.py
   figures.py                     regenerates slides/images/ (numpy + matplotlib)
+  figures_riscv.py               the RISC-V deck's diagrams (python3 slides/figures_riscv.py)
 ```
 
 Layout renders, simulation plots and SVG diagrams come from

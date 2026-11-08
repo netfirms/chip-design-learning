@@ -14,10 +14,13 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends iverilog verilator yosys
+          sudo apt-get install -y --no-install-recommends iverilog verilator yosys gcc-riscv64-unknown-elf
 
       - name: Lint + simulate + generic synthesis (every design)
         run: make check
+
+      - name: Recompile the RISC-V firmware from C and run it on minirv
+        run: make -C designs/riscv firmware sim
 
       - name: Synthesis onto sky130 cells (every design)
         run: make check-sky130

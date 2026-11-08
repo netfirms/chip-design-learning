@@ -1,0 +1,243 @@
+
+isa_test.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	li	gp,0
+   4:	li	a0,5
+   8:	li	a1,7
+   c:	add	a2,a0,a1
+  10:	li	t6,12
+  14:	addi	gp,gp,1
+  18:	bne	a2,t6,388 <fail>
+  1c:	sub	a2,a0,a1
+  20:	li	t6,-2
+  24:	addi	gp,gp,1
+  28:	bne	a2,t6,388 <fail>
+  2c:	addi	a2,a0,-10
+  30:	li	t6,-5
+  34:	addi	gp,gp,1
+  38:	bne	a2,t6,388 <fail>
+  3c:	lui	a2,0x12345
+  40:	lui	t6,0x12345
+  44:	addi	gp,gp,1
+  48:	bne	a2,t6,388 <fail>
+  4c:	auipc	a2,0x0
+  50:	auipc	a3,0x0
+  54:	addi	a3,a3,-4 # 4c <_start+0x4c>
+  58:	sub	a2,a2,a3
+  5c:	li	t6,0
+  60:	addi	gp,gp,1
+  64:	bne	a2,t6,388 <fail>
+  68:	li	zero,5
+  6c:	add	a2,zero,zero
+  70:	li	t6,0
+  74:	addi	gp,gp,1
+  78:	bne	a2,t6,388 <fail>
+  7c:	lui	a0,0xf0f0f
+  80:	addi	a0,a0,240 # f0f0f0f0 <_stack_top+0xf0eff0f0>
+  84:	lui	a1,0xff01
+  88:	addi	a1,a1,-16 # ff00ff0 <_stack_top+0xfef0ff0>
+  8c:	and	a2,a0,a1
+  90:	lui	t6,0xf00
+  94:	addi	t6,t6,240 # f000f0 <_stack_top+0xef00f0>
+  98:	addi	gp,gp,1
+  9c:	bne	a2,t6,388 <fail>
+  a0:	or	a2,a0,a1
+  a4:	lui	t6,0xfff10
+  a8:	addi	t6,t6,-16 # fff0fff0 <_stack_top+0xffeffff0>
+  ac:	addi	gp,gp,1
+  b0:	bne	a2,t6,388 <fail>
+  b4:	xor	a2,a0,a1
+  b8:	lui	t6,0xff010
+  bc:	addi	t6,t6,-256 # ff00ff00 <_stack_top+0xfeffff00>
+  c0:	addi	gp,gp,1
+  c4:	bne	a2,t6,388 <fail>
+  c8:	zext.b	a2,a0
+  cc:	li	t6,240
+  d0:	addi	gp,gp,1
+  d4:	bne	a2,t6,388 <fail>
+  d8:	ori	a2,a0,15
+  dc:	lui	t6,0xf0f0f
+  e0:	addi	t6,t6,255 # f0f0f0ff <_stack_top+0xf0eff0ff>
+  e4:	addi	gp,gp,1
+  e8:	bne	a2,t6,388 <fail>
+  ec:	not	a2,a0
+  f0:	lui	t6,0xf0f1
+  f4:	addi	t6,t6,-241 # f0f0f0f <_stack_top+0xf0e0f0f>
+  f8:	addi	gp,gp,1
+  fc:	bne	a2,t6,388 <fail>
+ 100:	li	a0,1
+ 104:	li	a1,31
+ 108:	sll	a2,a0,a1
+ 10c:	lui	t6,0x80000
+ 110:	addi	gp,gp,1
+ 114:	bne	a2,t6,388 <fail>
+ 118:	slli	a2,a0,0x4
+ 11c:	li	t6,16
+ 120:	addi	gp,gp,1
+ 124:	bne	a2,t6,388 <fail>
+ 128:	lui	a0,0x80000
+ 12c:	srli	a2,a0,0x1f
+ 130:	li	t6,1
+ 134:	addi	gp,gp,1
+ 138:	bne	a2,t6,388 <fail>
+ 13c:	srai	a2,a0,0x1f
+ 140:	li	t6,-1
+ 144:	addi	gp,gp,1
+ 148:	bne	a2,t6,388 <fail>
+ 14c:	li	a1,4
+ 150:	sra	a2,a0,a1
+ 154:	lui	t6,0xf8000
+ 158:	addi	gp,gp,1
+ 15c:	bne	a2,t6,388 <fail>
+ 160:	srl	a2,a0,a1
+ 164:	lui	t6,0x8000
+ 168:	addi	gp,gp,1
+ 16c:	bne	a2,t6,388 <fail>
+ 170:	li	a1,36
+ 174:	srl	a2,a0,a1
+ 178:	lui	t6,0x8000
+ 17c:	addi	gp,gp,1
+ 180:	bne	a2,t6,388 <fail>
+ 184:	li	a0,-1
+ 188:	li	a1,1
+ 18c:	slt	a2,a0,a1
+ 190:	li	t6,1
+ 194:	addi	gp,gp,1
+ 198:	bne	a2,t6,388 <fail>
+ 19c:	sltu	a2,a0,a1
+ 1a0:	li	t6,0
+ 1a4:	addi	gp,gp,1
+ 1a8:	bne	a2,t6,388 <fail>
+ 1ac:	slti	a2,a0,0
+ 1b0:	li	t6,1
+ 1b4:	addi	gp,gp,1
+ 1b8:	bne	a2,t6,388 <fail>
+ 1bc:	sltiu	a2,a1,-1
+ 1c0:	li	t6,1
+ 1c4:	addi	gp,gp,1
+ 1c8:	bne	a2,t6,388 <fail>
+ 1cc:	li	s0,920
+ 1d0:	lui	a0,0x11223
+ 1d4:	addi	a0,a0,836 # 11223344 <_stack_top+0x11213344>
+ 1d8:	sw	a0,0(s0)
+ 1dc:	lw	a2,0(s0)
+ 1e0:	lui	t6,0x11223
+ 1e4:	addi	t6,t6,836 # 11223344 <_stack_top+0x11213344>
+ 1e8:	addi	gp,gp,1
+ 1ec:	bne	a2,t6,388 <fail>
+ 1f0:	lb	a2,0(s0)
+ 1f4:	li	t6,68
+ 1f8:	addi	gp,gp,1
+ 1fc:	bne	a2,t6,388 <fail>
+ 200:	lbu	a2,3(s0)
+ 204:	li	t6,17
+ 208:	addi	gp,gp,1
+ 20c:	bne	a2,t6,388 <fail>
+ 210:	li	a0,128
+ 214:	sb	a0,1(s0)
+ 218:	lw	a2,0(s0)
+ 21c:	lui	t6,0x11228
+ 220:	addi	t6,t6,68 # 11228044 <_stack_top+0x11218044>
+ 224:	addi	gp,gp,1
+ 228:	bne	a2,t6,388 <fail>
+ 22c:	lb	a2,1(s0)
+ 230:	li	t6,-128
+ 234:	addi	gp,gp,1
+ 238:	bne	a2,t6,388 <fail>
+ 23c:	lbu	a2,1(s0)
+ 240:	li	t6,128
+ 244:	addi	gp,gp,1
+ 248:	bne	a2,t6,388 <fail>
+ 24c:	lui	a0,0xc
+ 250:	addi	a0,a0,-273 # beef <_bss_end+0xbb4b>
+ 254:	sh	a0,2(s0)
+ 258:	lw	a2,0(s0)
+ 25c:	lui	t6,0xbeef8
+ 260:	addi	t6,t6,68 # beef8044 <_stack_top+0xbeee8044>
+ 264:	addi	gp,gp,1
+ 268:	bne	a2,t6,388 <fail>
+ 26c:	lh	a2,2(s0)
+ 270:	lui	t6,0xffffc
+ 274:	addi	t6,t6,-273 # ffffbeef <_stack_top+0xfffebeef>
+ 278:	addi	gp,gp,1
+ 27c:	bne	a2,t6,388 <fail>
+ 280:	lhu	a2,2(s0)
+ 284:	lui	t6,0xc
+ 288:	addi	t6,t6,-273 # beef <_bss_end+0xbb4b>
+ 28c:	addi	gp,gp,1
+ 290:	bne	a2,t6,388 <fail>
+ 294:	lh	a2,0(s0)
+ 298:	lui	t6,0xffff8
+ 29c:	addi	t6,t6,68 # ffff8044 <_stack_top+0xfffe8044>
+ 2a0:	addi	gp,gp,1
+ 2a4:	bne	a2,t6,388 <fail>
+ 2a8:	addi	s1,s0,8
+ 2ac:	lw	a2,-8(s1)
+ 2b0:	lui	t6,0xbeef8
+ 2b4:	addi	t6,t6,68 # beef8044 <_stack_top+0xbeee8044>
+ 2b8:	addi	gp,gp,1
+ 2bc:	bne	a2,t6,388 <fail>
+ 2c0:	sw	a1,4(s0)
+ 2c4:	lw	a2,4(s0)
+ 2c8:	li	t6,1
+ 2cc:	addi	gp,gp,1
+ 2d0:	bne	a2,t6,388 <fail>
+ 2d4:	lw	a2,0(s0)
+ 2d8:	lui	t6,0xbeef8
+ 2dc:	addi	t6,t6,68 # beef8044 <_stack_top+0xbeee8044>
+ 2e0:	addi	gp,gp,1
+ 2e4:	bne	a2,t6,388 <fail>
+ 2e8:	li	a0,-1
+ 2ec:	li	a1,1
+ 2f0:	addi	gp,gp,1
+ 2f4:	blt	a0,a1,2fc <_start+0x2fc>
+ 2f8:	j	388 <fail>
+ 2fc:	bltu	a0,a1,388 <fail>
+ 300:	bge	a1,a0,308 <_start+0x308>
+ 304:	j	388 <fail>
+ 308:	bge	a0,a0,310 <_start+0x310>
+ 30c:	j	388 <fail>
+ 310:	bgeu	a1,a0,388 <fail>
+ 314:	bgeu	a0,a1,31c <_start+0x31c>
+ 318:	j	388 <fail>
+ 31c:	beq	a0,a0,324 <_start+0x324>
+ 320:	j	388 <fail>
+ 324:	beq	a0,a1,388 <fail>
+ 328:	bne	a0,a0,388 <fail>
+ 32c:	bne	a0,a1,334 <_start+0x334>
+ 330:	j	388 <fail>
+ 334:	blt	a1,a0,388 <fail>
+ 338:	addi	gp,gp,1
+ 33c:	jal	344 <ret1+0x4>
+
+00000340 <ret1>:
+ 340:	j	388 <fail>
+ 344:	auipc	a3,0x0
+ 348:	addi	a3,a3,-4 # 340 <ret1>
+ 34c:	bne	ra,a3,388 <fail>
+ 350:	addi	gp,gp,1
+ 354:	auipc	a4,0x0
+ 358:	addi	a4,a4,20 # 368 <ret2+0x4>
+ 35c:	addi	a4,a4,1
+ 360:	jalr	t0,a4
+
+00000364 <ret2>:
+ 364:	j	388 <fail>
+ 368:	auipc	a3,0x0
+ 36c:	addi	a3,a3,-4 # 364 <ret2>
+ 370:	bne	t0,a3,388 <fail>
+ 374:	fence
+ 378:	lui	t0,0x10000
+ 37c:	addi	t0,t0,4 # 10000004 <_stack_top+0xfff0004>
+ 380:	sw	zero,0(t0)
+ 384:	j	384 <ret2+0x20>
+
+00000388 <fail>:
+ 388:	lui	t0,0x10000
+ 38c:	addi	t0,t0,4 # 10000004 <_stack_top+0xfff0004>
+ 390:	sw	gp,0(t0)
+ 394:	j	394 <fail+0xc>
