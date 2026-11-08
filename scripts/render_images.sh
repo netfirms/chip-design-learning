@@ -23,14 +23,14 @@ python3 $R "$(gds fir fir)" -o $I/banner.webp --size 2400 800 \
     --subtitle 'A fast-track course in digital chip design for EE students\nVerilog to silicon with Yosys, OpenROAD and SkyWater sky130' \
     --caption "16-tap FIR filter, routed in sky130 by this repo. Rendered from the GDS with python/render_3d.py"
 
-for spec in counter:counter pwm:pwm fir:fir iir:iir fft:fft8 riscv:minirv; do
+for spec in counter:counter pwm:pwm fir:fir iir:iir fft:fft8 riscv:minirv aes:aes_ctr; do
     d=${spec%%:*}; t=${spec##*:}
     g=$(gds "$d" "$t")
     [[ -f "$g" ]] || { echo "skip $d (no GDS, run make pnr)"; continue; }
     size=$(die "$g")
 
     # Whole die
-    zoom=1.05; [[ ${size%.*} -gt 100 ]] && zoom=0.9
+    zoom=1.05; [[ ${size%.*} -gt 100 ]] && zoom=0.9; [[ ${size%.*} -gt 480 ]] && zoom=0.65
     python3 $R "$g" -o $I/${d}_3d.webp --size 1600 900 --zscale 2.5 --elevation 40 \
         --azimuth -60 --zoom $zoom --caption "$d: whole die in sky130, rendered from the routed GDS"
 
@@ -54,6 +54,13 @@ if [[ -f "$g" ]]; then
         --title "The FIR as a Tiny Tapeout project (1x2 tiles): transistors and wiring"
     python3 $R "$g" -o $I/tt_fir_3d.webp --size 1600 900 --zscale 2.5 --elevation 40 --azimuth -60 \
         --zoom 0.78 --caption "tt_fir in 1x2 Tiny Tapeout tiles (161 x 226 um), 42% full, rendered from the routed GDS"
+fi
+
+# The encryption chip (designs/aes): transistors, wiring and its 22 pins
+g=$(gds aes aes_ctr)
+if [[ -f "$g" ]]; then
+    python3 python/render_transistors_iso.py "$g" "${g%.gds}.def" -o $I/aes_iso_transistors.webp \
+        --title "aes_ctr: an AES-128 link encryptor in sky130, transistors and wiring"
 fi
 
 # ORFS stage pictures (placement, clock tree, routing) for the FIR

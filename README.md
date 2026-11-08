@@ -9,7 +9,8 @@
 A **fast-track course in digital chip design for electronics and electrical
 engineering students**. It starts with a counter, builds real DSP hardware
 (FIR and IIR filters and an FFT) and a RISC-V CPU that runs C, and finishes
-with a design ready for a [Tiny Tapeout](https://tinytapeout.com/) shuttle.
+with a design ready for a [Tiny Tapeout](https://tinytapeout.com/) shuttle
+and an AES-128 encryption chip for private communication.
 Every design is taken from Verilog through simulation, synthesis and place &
 route on the open SkyWater sky130 process. Side modules compare the FFT in
 software and hardware, connect the chip to real analog signals through an ADC
@@ -29,7 +30,7 @@ place & route included ([how it works](docs/codespaces.md)).
 
 ## The course
 
-Ten modules plus three side modules, about five to six weeks at two modules
+Eleven modules plus three side modules, about six weeks at two modules
 a week. Every module has a working design, a self-checking testbench,
 exercises, a [slide deck](slides/) and an eight-question quiz at the end of
 the deck (answer keys are on the
@@ -51,6 +52,7 @@ branch, so students can try the quiz first).
 | +  | Verification with cocotb (side module, after Module 4) | all designs | Core | [09](slides/09-verification.md) |
 | 9  | A RISC-V CPU that runs C | [`riscv`](designs/riscv) | Advanced | [10](slides/10-riscv.md) |
 | 10 | Capstone: the FIR on Tiny Tapeout | [`tt_fir`](designs/tt_fir) | Project | [11](slides/11-tinytapeout.md) |
+| 11 | An encryption chip for private communication | [`aes`](designs/aes) | Advanced | [12](slides/12-aes.md) |
 
 The module text, with exercises and checkboxes, is in
 [docs/learning-path.md](docs/learning-path.md).
@@ -87,9 +89,17 @@ labelled at their real places on the die edge. Each design's page has more
 | <img src="docs/images/fft_iso_transistors.webp" width="300"> | **[fft](designs/fft)**<br>Advanced | 8-point complex radix-2 FFT | 9,100 cells, 449 × 449 µm, 50 MHz |
 | <img src="docs/images/riscv_iso_transistors.webp" width="300"> | **[riscv](designs/riscv)**<br>Advanced | RV32I RISC-V CPU that runs C compiled by gcc | 6,200 cells, 427 × 427 µm, 50 MHz |
 | <img src="docs/images/tt_fir_iso_transistors.webp" width="300"> | **[tt_fir](designs/tt_fir)**<br>Capstone | The FIR as a [Tiny Tapeout](https://tinytapeout.com/) project: fixed pinout, synchronised inputs, ready for a shuttle | 1,160 cells, 2 tiles (161 × 226 µm), 50 MHz |
+| <img src="docs/images/aes_iso_transistors.webp" width="300"> | **[aes](designs/aes)**<br>Advanced | AES-128 link encryptor in counter mode: two chips with one key make a private wire | 11,095 cells, 508 × 508 µm, 50 MHz |
 
-All seven designs pass their testbenches and route with 0 DRC violations and
+All eight designs pass their testbenches and route with 0 DRC violations and
 positive timing slack.
+
+**A private wire.** The [aes](designs/aes) chip encrypts a byte stream with
+AES-128 in counter mode. Alice's chip and Bob's chip share a key; Eve, on the
+same wire with one key bit wrong, reads only noise. The test checks it
+against the FIPS-197 and NIST SP 800-38A vectors.
+
+![Alice, Bob and Eve on one wire](slides/images/aes_link.png)
 
 **Software or hardware?** [codesign/](codesign/) runs the same 8-point FFT
 as Python, NumPy and C and compares it with the `fft` chip on speed, energy
@@ -225,7 +235,7 @@ artifact of the run, and the job summary shows the same numbers as a table.
 ```
 .devcontainer/        Codespaces / Dev Container with every tool preinstalled
 docs/
-  learning-path.md   the course: 10 modules (a Tiny Tapeout capstone last) and side modules, with exercises
+  learning-path.md   the course: 11 modules (a Tiny Tapeout capstone and an AES chip last) and side modules, with exercises
   fixed-point.md     Q formats, rounding, saturation for DSP hardware
   flow-overview.md   what each RTL-to-GDS stage does and how to read reports
   setup.md           installing the tools (apt, OSS CAD Suite, Docker)
@@ -251,6 +261,7 @@ mk/cocotb.mk         runs a design's cocotb testbench (called by make cocotb)
 python/
   dsp_coeffs.py      designs and quantises the FIR/IIR coefficients
   cocotb_util.py     clock/reset and fixed-point helpers for the cocotb tests
+  aes_model.py       AES-128 reference model (cocotb golden model, writes the S-box Verilog)
   plot_tb.py         plots testbench output (make plot)
   ppa_dashboard.py   area/timing/power dashboard for every design (make ppa)
   render_3d.py       3D render of a routed GDS

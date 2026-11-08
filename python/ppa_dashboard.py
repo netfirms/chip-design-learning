@@ -38,7 +38,7 @@ import subprocess
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # Course order (docs/learning-path.md); anything else is appended alphabetically
-ORDER = ["counter", "pwm", "fir", "iir", "fft"]
+ORDER = ["counter", "pwm", "fir", "iir", "fft", "riscv", "tt_fir", "aes"]
 
 # How standard cells are grouped in the "cell mix" chart. First match wins.
 CELL_GROUPS = [

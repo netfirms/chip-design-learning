@@ -17,8 +17,8 @@ to a real layout with open-source tools.
 complement, convolution, the Z-transform and frequency response, the DFT, and
 basic programming (Python or C).
 
-**Format:** 8 modules, each 3 to 6 hours, plus a CPU module and a Tiny
-Tapeout capstone to finish. A typical pace is two modules a week, so five
+**Format:** 8 modules, each 3 to 6 hours, plus a CPU module, a Tiny
+Tapeout capstone and an encryption chip to finish. A typical pace is two modules a week, so five
 to six weeks in total. Every module has a working design in
 `designs/`, a self-checking testbench, and exercises. Every design goes
 through the same flow:
@@ -43,6 +43,7 @@ make sim  ->  make lint  ->  make synth / synth-sky130  ->  make pnr
 | 8  | Your own design and tapeout     | yours             | Project  | Putting it all together                   |
 | 9  | A RISC-V CPU that runs C        | `riscv`           | Advanced | Instruction set, datapath, gcc on your RTL |
 | 10 | Capstone: FIR on Tiny Tapeout   | `tt_fir`          | Project  | Fixed pins, fixed tile, async inputs      |
+| 11 | An encryption chip              | `aes`             | Advanced | AES-128, iterative rounds, CTR-mode link  |
 
 **Side module: verification with cocotb** ([verification.md](verification.md)).
 Every design also has a Python testbench; this 2 to 3 hour module, best done
@@ -265,6 +266,7 @@ corner). Reproduce them, then use them for the exercises:
 | iir     | 1,560 |          19,000 | 235 × 235 | 20 ns |     9.07 ns |       ~90 MHz | 1.3 mW |
 | fft     | 9,073 |          79,800 | 449 × 449 | 20 ns |     5.77 ns |       ~70 MHz | 2.7 mW |
 | riscv   | 6,248 |          77,000 | 427 × 427 | 20 ns |     9.43 ns |       ~95 MHz | 7.4 mW |
+| aes     | 11,095 |          85,100 | 508 × 508 | 20 ns |    10.07 ns |      ~100 MHz | 11.5 mW |
 
 "Fastest clock" is 1 / (clock period - worst slack), a first estimate; the
 tools re-optimise when you actually tighten the constraint.
@@ -389,6 +391,51 @@ the project asks for two.
 - [ ] **Exercise:** write the RP2040 MicroPython that sends an impulse and
       prints the 16 outputs. Compare them with `docs/info.md`.
 
+---
+
+## Module 11: An encryption chip for private communication (`designs/aes`)
+
+Goal: build the chip that makes a wire private. Two `aes_ctr` chips with
+the same 128-bit key turn a message into bytes that look random to anyone
+else on the wire, and back into the message at the other end.
+
+Read: [designs/aes/README.md](../designs/aes/README.md) and the
+[Module 11 deck](../slides/12-aes.md).
+
+![Alice, Bob and Eve](../slides/images/aes_link.png)
+
+- AES-128 from the standard (FIPS-197): the state, SubBytes, ShiftRows,
+  MixColumns, AddRoundKey and the key expansion
+- Arithmetic in GF(2^8): why "multiply by 2" is a shift and an XOR, and
+  the S-box as a generated table of logic
+- An **iterative** core: one round of logic used ten times, round keys made
+  on the fly, 10 clocks per block
+- Counter (CTR) mode: one encryption core both encrypts and decrypts a
+  byte stream
+- Verifying crypto with known-answer vectors and a Python model
+- What a cipher does not give you: integrity, key exchange, protection
+  against counter reuse and side channels
+
+![One round per clock](../slides/images/aes_round.png)
+
+- [ ] `make sim` in `designs/aes`: six core known answers, the SP 800-38A
+      CTR vectors, then Alice, Bob and Eve. `python3 python/aes_model.py`
+      checks the Python model against the same vectors.
+- [ ] `make waves`: follow `round`, `rcon` and `state` for the FIPS-197
+      appendix B block and compare each round with the standard.
+- [ ] `make cocotb` (five tests). Delete the `stale` flag in
+      `rtl/aes_ctr.v` and see which test catches it.
+- [ ] `make synth-sky130` and `make pnr`. How much of the area is S-boxes?
+
+![aes_ctr in sky130: transistors, wiring and pins](images/aes_iso_transistors.webp)
+
+- [ ] **Exercise:** a 32-bit datapath with 4 shared S-boxes (one column per
+      clock). Compare cells, clocks per block and Mbit/s per mm².
+- [ ] **Exercise:** send two messages with the same key and counter, XOR
+      the two wires and explain what you see.
+- [ ] **Stretch:** add a GHASH multiplier for AES-GCM, so Bob can tell if
+      Eve changed a byte.
+
 ## Further reading
 
 - [Open-source chip design tools](tools.md): every tool by job (simulation,
@@ -421,3 +468,6 @@ the project asks for two.
 | MAC      | Multiply-accumulate                                                 |
 | Qm.n     | Fixed-point format: m integer bits (incl. sign), n fractional bits  |
 | Twiddle  | The complex constant W^k = exp(-j2πk/N) in an FFT butterfly          |
+| S-box    | Substitution box: AES's fixed 8-bit to 8-bit table, its only non-linear step |
+| CTR mode | Counter mode: encrypt a counter, XOR the result with the data       |
+| GF(2^8)  | The 256-element field AES computes in: add is XOR, multiply is shift and XOR |
